@@ -43,14 +43,14 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "ACME.LearningCenterPlatform.API",
+        Title = "BillSave.API",
         Version = "v1",
-        Description = "ACME Learning Center Platform API",
-        TermsOfService = new Uri("https://acme-learning.com/tos"),
+        Description = "Bill Save API",
+        TermsOfService = new Uri(""),
         Contact = new OpenApiContact
         {
-            Name = "ACME Studios",
-            Email = "contact@acme.com"
+            Name = "",
+            Email = ""
         },
         License = new OpenApiLicense
         {
