@@ -1,23 +1,145 @@
+using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using BillSave.API.Shared.Domain.Repositories;
+using BillSave.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
+using BillSave.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using BillSave.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+using BillSave.API.Shared.Infrastructure.Pipeline.Middleware.Components;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (connectionString == null)
+{
+    throw new InvalidOperationException("Connection string not found.");
+}
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        options.UseMySQL(connectionString)
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors();
+    }
+    else if (builder.Environment.IsProduction())
+    {
+        options.UseMySQL(connectionString)
+            .LogTo(Console.WriteLine, LogLevel.Error);
+    }
+});
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "ACME.LearningCenterPlatform.API",
+        Version = "v1",
+        Description = "ACME Learning Center Platform API",
+        TermsOfService = new Uri("https://acme-learning.com/tos"),
+        Contact = new OpenApiContact
+        {
+            Name = "ACME Studios",
+            Email = "contact@acme.com"
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Apache 2.0",
+            Url = new Uri("https://apache.org/licenses/LICENSE-2.0.html")
+        }
+    });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token into field",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+    options.EnableAnnotations();
+});
+
+// Add CORS policy
+builder.Services.AddCors(options =>
+    options.AddPolicy(
+        "AllowAllPolicy",
+        policy => policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()));
+
+// Dependency Injection
+
+// Shared Bounded Context
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// TokenSettings Configuration
+
+/*builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();*/
+
+// Common Exception Handling Middleware
+builder.Services.AddExceptionHandler<CommonExceptionHandler>();
+builder.Services.AddExceptionHandler<CommonExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Verify if the database exists and create it if it doesn't
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+
+    context.Database.EnsureCreated();
 }
 
-app.UseHttpsRedirection();
+// Configure the HTTP request pipeline.
 
+// Enable Documentation Generation
+app.UseSwagger();
+app.UseSwaggerUI();
+
+// Enable CORS
+app.UseCors("AllowAllPolicy");
+
+// Enable Request Authorization Middleware
+//app.UseRequestAuthorization();
+ 
+// Enable Exception Handling Middleware
+app.UseExceptionHandler();
+
+// Other Middleware
+app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
