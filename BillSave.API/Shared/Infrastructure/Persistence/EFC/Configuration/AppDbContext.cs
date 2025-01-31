@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BillSave.API.Profiles.Domain.Model.Aggregates;
+using Microsoft.EntityFrameworkCore;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using BillSave.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
@@ -40,6 +41,10 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    protected override void OnModelCreating(ModelBuilder builder)
    {
       base.OnModelCreating(builder);
+
+      builder.Entity<Profile>().HasKey(p => p.Id);
+      builder.Entity<Profile>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<Profile>().Property(p => p.FullName).IsRequired();
       
       // Bounded Context
       //...
