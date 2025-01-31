@@ -1,4 +1,5 @@
-﻿using BillSave.API.Profiles.Domain.Model.Aggregates;
+﻿using BillSave.API.IAM.Domain.Model.Aggregates;
+using BillSave.API.Profiles.Domain.Model.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using BillSave.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
@@ -41,10 +42,17 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    protected override void OnModelCreating(ModelBuilder builder)
    {
       base.OnModelCreating(builder);
-
+      
+      // Profiles Context
       builder.Entity<Profile>().HasKey(p => p.Id);
       builder.Entity<Profile>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
       builder.Entity<Profile>().Property(p => p.FullName).IsRequired();
+      
+      // IAM Context
+      builder.Entity<User>().HasKey(u => u.Id);
+      builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<User>().Property(u => u.Username).IsRequired();
+      builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
       
       // Bounded Context
       //...
