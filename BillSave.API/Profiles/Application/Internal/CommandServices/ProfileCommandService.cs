@@ -30,13 +30,13 @@ public class ProfileCommandService(IProfileRepository profileRepository, IUnitOf
         {
             await profileRepository.AddAsync(profile);
             await unitOfWork.CompleteAsync();
+            return profile;
         }
         catch (Exception e)
         {
+            Console.WriteLine($"Error creating profile: {e.Message}");
             return null;
         }
-
-        return null;
     }
     
     

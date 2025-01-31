@@ -5,13 +5,16 @@ using BillSave.API.IAM.Domain.Repositories;
 using BillSave.API.IAM.Domain.Services;
 using BillSave.API.IAM.Infrastructure.Hashing.BCrypt.Services;
 using BillSave.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using BillSave.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
 using BillSave.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 using BillSave.API.IAM.Infrastructure.Tokens.JWT.Services;
+using BillSave.API.Profiles.Application.ACL;
 using BillSave.API.Profiles.Application.Internal.CommandServices;
 using BillSave.API.Profiles.Application.Internal.QueryServices;
 using BillSave.API.Profiles.Domain.Repositories;
 using BillSave.API.Profiles.Domain.Services;
 using BillSave.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
+using BillSave.API.Profiles.Interfaces.ACL;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using BillSave.API.Shared.Domain.Repositories;
@@ -115,6 +118,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
 builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
+builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 
 // IAM Bounded Context Dependency Injection Configuration
 
@@ -128,6 +132,8 @@ builder.Services.AddScoped<IHashingService, HashingService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+
+builder.Services.AddScoped<ExternalProfileService>();
 
 // Common Exception Handling Middleware
 builder.Services.AddExceptionHandler<CommonExceptionHandler>();
@@ -155,7 +161,7 @@ app.UseSwaggerUI();
 app.UseCors("AllowAllPolicy");
 
 // Enable Request Authorization Middleware
-//app.UseRequestAuthorization();
+app.UseRequestAuthorization();
  
 // Enable Exception Handling Middleware
 app.UseExceptionHandler();
