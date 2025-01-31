@@ -1,3 +1,12 @@
+using BillSave.API.IAM.Application.CommandServices;
+using BillSave.API.IAM.Application.OutboundServices;
+using BillSave.API.IAM.Application.QueryServices;
+using BillSave.API.IAM.Domain.Repositories;
+using BillSave.API.IAM.Domain.Services;
+using BillSave.API.IAM.Infrastructure.Hashing.BCrypt.Services;
+using BillSave.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using BillSave.API.IAM.Infrastructure.Tokens.JWT.Configuration;
+using BillSave.API.IAM.Infrastructure.Tokens.JWT.Services;
 using BillSave.API.Profiles.Application.Internal.CommandServices;
 using BillSave.API.Profiles.Application.Internal.QueryServices;
 using BillSave.API.Profiles.Domain.Repositories;
@@ -106,6 +115,19 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
 builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
+
+// IAM Bounded Context Dependency Injection Configuration
+
+// TokenSettings Configuration
+
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 
 // Common Exception Handling Middleware
 builder.Services.AddExceptionHandler<CommonExceptionHandler>();
