@@ -15,9 +15,4 @@ namespace BillSave.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
 public class ProfileRepository(AppDbContext context)
     : BaseRepository<Profile>(context), IProfileRepository
 {
-    /// <inheritdoc/>
-    public Task<Profile?> FindProfileByIdAsync(int id)
-    {
-        return Context.Set<Profile>().FirstOrDefaultAsync(p => p.Id == id);
-    }
 }

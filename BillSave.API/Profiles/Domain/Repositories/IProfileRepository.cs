@@ -11,14 +11,4 @@ namespace BillSave.API.Profiles.Domain.Repositories;
 /// </remarks>
 public interface IProfileRepository : IBaseRepository<Profile>
 {
-    /// <summary>
-    /// Find a profile by id.
-    /// </summary>
-    /// <param name="id">
-    /// The profile id.
-    /// </param>
-    /// <returns>
-    /// The profile with the given id.
-    /// </returns>
-    Task<Profile?> FindProfileByIdAsync(int id);
 }
