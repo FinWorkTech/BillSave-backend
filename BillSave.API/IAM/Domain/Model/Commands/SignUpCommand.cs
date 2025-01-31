@@ -9,4 +9,4 @@ namespace BillSave.API.IAM.Domain.Model.Commands;
 /// <param name="Password">
 /// The password of the user to sign up
 /// </param>
-public record SignUpCommand(string Username, string Password);
+public record SignUpCommand(string Username, string Password, string FullName);
