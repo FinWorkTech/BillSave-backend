@@ -1,3 +1,8 @@
+using BillSave.API.Profiles.Application.Internal.CommandServices;
+using BillSave.API.Profiles.Application.Internal.QueryServices;
+using BillSave.API.Profiles.Domain.Repositories;
+using BillSave.API.Profiles.Domain.Services;
+using BillSave.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using BillSave.API.Shared.Domain.Repositories;
@@ -46,7 +51,7 @@ builder.Services.AddSwaggerGen(options =>
         Title = "BillSave.API",
         Version = "v1",
         Description = "Bill Save API",
-        TermsOfService = new Uri(""),
+        TermsOfService = new Uri("https://billsave.com/terms"),
         Contact = new OpenApiContact
         {
             Name = "",
@@ -97,15 +102,10 @@ builder.Services.AddCors(options =>
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// TokenSettings Configuration
-
-/*builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserCommandService, UserCommandService>();
-builder.Services.AddScoped<IUserQueryService, UserQueryService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IHashingService, HashingService>();*/
+// Profiles Bounded Context Dependency Injection Configuration
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
+builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
 
 // Common Exception Handling Middleware
 builder.Services.AddExceptionHandler<CommonExceptionHandler>();
