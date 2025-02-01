@@ -1,4 +1,5 @@
 using BillSave.API.Sales.Domain.Model.Commands;
+using BillSave.API.Sales.Domain.Model.ValueObjects;
 using BillSave.API.Shared.Domain.Model;
 
 namespace BillSave.API.Sales.Domain.Model.Aggregates;
@@ -14,8 +15,8 @@ public partial class Document
     public SimpleDate IssueDate { get; private set; }
     public SimpleDate DueDate { get; private set; }
     
-    public string RateType { get; private set; }
-    public decimal RateValue { get; private set; }
+    public Rate Rate { get; private set; }
+    public Currency Currency { get; private set; }
     
     public int PortfolioId { get; }
 
@@ -26,29 +27,27 @@ public partial class Document
         IssueDate = new SimpleDate(DateTime.Now);
         DueDate = new SimpleDate(DateTime.Now);
         
-        RateType = string.Empty;
-        RateValue = 0;
+        Rate = new Rate(0,"Nominal"); 
+        Currency = new Currency("USD");
+
         PortfolioId = 0;
     }
     
-    public Document(string code, SimpleDate issueDate, SimpleDate dueDate, string rateType, decimal rateValue, int portfolioId)
+    public Document(string code, SimpleDate issueDate, SimpleDate dueDate, Rate rate, Currency currency, int portfolioId)
     {
         Code = code;
         IssueDate = issueDate;
         DueDate = dueDate;
         
-        RateType = rateType;
-        RateValue = rateValue;
+        Rate = rate;
+        Currency = currency;
+
         PortfolioId = portfolioId;
     }
     
-    /// Document constructor
     /// <summary>
-    /// This constructor creates a new document with the given command. It is used to create a new document.
+    /// Constructor that initializes a Document from a command.
     /// </summary>
-    /// <param name="command">
-    /// The create document command.
-    /// </param>
     public Document(CreateDocumentCommand command)
     { 
         Code = command.Code;
@@ -56,8 +55,9 @@ public partial class Document
         IssueDate = new SimpleDate(command.IssueDate);
         DueDate = new SimpleDate(command.DueDate);
         
-        RateType = command.RateType;
-        RateValue = command.RateValue;
+        Rate = new Rate(command.RateValue, command.RateType);
+        Currency = new Currency(command.Currency);
+
         PortfolioId = command.PortfolioId;
     }
 }
