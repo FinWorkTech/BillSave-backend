@@ -60,4 +60,21 @@ public partial class Document
 
         PortfolioId = command.PortfolioId;
     }
+    
+    /// <summary>
+    /// Update the document with the given command.
+    /// </summary>
+    /// <param name="command">
+    /// The command to update the document.
+    /// </param>
+    public void UpdateDocument(UpdateDocumentCommand command)
+    {
+        Code = command.Code;
+        
+        DueDate = new SimpleDate(command.DueDate);
+        IssueDate = new SimpleDate(command.IssueDate);
+        
+        Rate = new Rate(command.RateValue, command.RateType);
+        Currency = new Currency(command.Currency);
+    }
 }
