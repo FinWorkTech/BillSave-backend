@@ -8,6 +8,11 @@ using BillSave.API.IAM.Infrastructure.Persistence.EFC.Repositories;
 using BillSave.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
 using BillSave.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 using BillSave.API.IAM.Infrastructure.Tokens.JWT.Services;
+using BillSave.API.Portfolio.Application.Internal.CommandServices;
+using BillSave.API.Portfolio.Application.Internal.QueryServices;
+using BillSave.API.Portfolio.Domain.Repositories;
+using BillSave.API.Portfolio.Domain.Services;
+using BillSave.API.Portfolio.Infrastructure.Persistence.EFC.Repositories;
 using BillSave.API.Profiles.Application.ACL;
 using BillSave.API.Profiles.Application.Internal.CommandServices;
 using BillSave.API.Profiles.Application.Internal.QueryServices;
@@ -113,6 +118,11 @@ builder.Services.AddCors(options =>
 
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Portfolio Bounded Context Dependency Injection Configuration
+builder.Services.AddScoped<IPackRepository, PackRepository>();
+builder.Services.AddScoped<IPackCommandService, PackCommandService>();
+builder.Services.AddScoped<IPackQueryService, PackQueryService>();
 
 // Profiles Bounded Context Dependency Injection Configuration
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();

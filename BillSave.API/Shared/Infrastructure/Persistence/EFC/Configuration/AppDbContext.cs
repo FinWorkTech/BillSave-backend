@@ -1,4 +1,5 @@
 ﻿using BillSave.API.IAM.Domain.Model.Aggregates;
+using BillSave.API.Portfolio.Domain.Model.Aggregates;
 using BillSave.API.Profiles.Domain.Model.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
@@ -53,6 +54,21 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
       builder.Entity<User>().Property(u => u.Username).IsRequired();
       builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
+      
+      // Portfolio Context
+      builder.Entity<Pack>().HasKey(p => p.Id);
+      builder.Entity<Pack>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<Pack>().Property(p => p.Name).IsRequired();
+      builder.Entity<Pack>().Property(p => p.DiscountDate).IsRequired();
+      builder.Entity<Pack>().Property(p => p.UserId).IsRequired();
+      builder.Entity<Pack>().Property(p => p.TotalDocuments).IsRequired();
+      builder.Entity<Pack>().OwnsOne(p => p.EffectiveAnnualCostRate,
+         e =>
+         {
+            e.WithOwner().HasForeignKey("Id");
+            e.Property(p => p.Value).HasColumnName("EffectiveAnnualCostRate");
+         });
+      
       
       // Bounded Context
       //...
