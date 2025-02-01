@@ -10,6 +10,7 @@ namespace BillSave.API.Portfolio.Domain.Model.Aggregates;
 public partial class Pack
 {
     public int Id { get; }
+    public int UserId { get; }
     public string Name { get; private set; }
     public DateTime DiscountDate { get; private set; }
     

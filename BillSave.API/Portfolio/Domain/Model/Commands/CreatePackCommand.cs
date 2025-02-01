@@ -10,4 +10,7 @@ namespace BillSave.API.Portfolio.Domain.Model.Commands;
 /// <param name="DiscountDate">
 /// The discount date of the Portfolio.
 /// </param>
-public record CreatePackCommand(string Name, DateTime DiscountDate);
+/// <param name="UserId">
+/// The user id of the Portfolio.
+/// </param>
+public record CreatePackCommand(string Name, DateTime DiscountDate, int UserId);
