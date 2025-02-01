@@ -1,3 +1,4 @@
+using System.Collections;
 using BillSave.API.Sales.Domain.Model.Aggregates;
 using BillSave.API.Shared.Domain.Repositories;
 
@@ -20,6 +21,31 @@ public interface IDocumentRepository : IBaseRepository<Document>
     /// The list of documents.
     /// </returns>
     Task<IEnumerable<Document>> FindByPortfolioIdAsync(int portfolioId);
+    
+    /// <summary>
+    /// Find Document by Date Range.
+    /// </summary>
+    /// <param name="startDate">
+    /// The start date.
+    /// </param>
+    /// <param name="endDate">
+    /// The end date.
+    /// </param>
+    /// <returns>
+    /// The Documents found.
+    /// </returns>
+    Task<IEnumerable<Document>> FindByDateRangeAsync(DateTime startDate, DateTime endDate);
+    
+    /// <summary>
+    /// Find By Rate Type.
+    /// </summary>
+    /// <param name="rateType">
+    /// The rate type.
+    /// </param>
+    /// <returns>
+    /// The Documents found.
+    /// </returns>
+    Task<IEnumerable<Document>> FinByRateTypeAsync(string rateType);
     
     /// Exists By Code
     /// <summary>

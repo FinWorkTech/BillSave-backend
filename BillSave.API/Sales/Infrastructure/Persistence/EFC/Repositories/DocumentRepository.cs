@@ -23,6 +23,19 @@ public class DocumentRepository(AppDbContext context) : BaseRepository<Document>
     }
     
     /// <inheritdoc />
+    public async Task<IEnumerable<Document>> FindByDateRangeAsync(DateTime startDate, DateTime endDate)
+    {
+        return await Context.Set<Document>()
+            .Where(d => d.IssueDate.Value >= startDate && d.IssueDate.Value <= endDate).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Document>> FinByRateTypeAsync(string rateType)
+    {
+        return await Context.Set<Document>()
+            .Where(d => d.Rate.Type == rateType).ToListAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<bool> ExistsByCode(string code)
     {
         return await Context.Set<Document>().AnyAsync(d => d.Code == code);
