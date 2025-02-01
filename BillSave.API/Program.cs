@@ -20,6 +20,11 @@ using BillSave.API.Profiles.Domain.Repositories;
 using BillSave.API.Profiles.Domain.Services;
 using BillSave.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
 using BillSave.API.Profiles.Interfaces.ACL;
+using BillSave.API.Sales.Application.Internal.CommandServices;
+using BillSave.API.Sales.Application.Internal.QueryServices;
+using BillSave.API.Sales.Domain.Repositories;
+using BillSave.API.Sales.Domain.Services;
+using BillSave.API.Sales.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using BillSave.API.Shared.Domain.Repositories;
@@ -123,6 +128,11 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPackRepository, PackRepository>();
 builder.Services.AddScoped<IPackCommandService, PackCommandService>();
 builder.Services.AddScoped<IPackQueryService, PackQueryService>();
+
+// Sales Bounded Context Dependency Injection Configuration
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+builder.Services.AddScoped<IDocumentCommandService, DocumentCommandService>();
+builder.Services.AddScoped<IDocumentQueryService, DocumentQueryService>();
 
 // Profiles Bounded Context Dependency Injection Configuration
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
