@@ -42,7 +42,8 @@ public partial class Pack
     {
         Name = command.Name;
         DiscountDate = command.DiscountDate;
-        TotalDocuments = command.TotalDocuments;
+        
+        TotalDocuments = 0;
         EffectiveAnnualCostRate = new EffectiveAnnualCostRate(0);
     }
 }
