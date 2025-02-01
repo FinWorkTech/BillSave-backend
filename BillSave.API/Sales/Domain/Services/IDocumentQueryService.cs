@@ -1,3 +1,4 @@
+using System.Collections;
 using BillSave.API.Sales.Domain.Model.Aggregates;
 using BillSave.API.Sales.Domain.Model.Commands;
 using BillSave.API.Sales.Domain.Model.Queries;
@@ -19,7 +20,7 @@ public interface IDocumentQueryService
     /// <returns>
     /// The <see cref="Document"/> object.
     /// </returns>
-    Task<Document?> Handle(GetDocumentByDateRangeQuery query);
+    Task<IEnumerable<Document>> Handle(GetDocumentByDateRangeQuery query);
     
     /// <summary>
     /// This method is used to get a document by its id.
@@ -30,7 +31,7 @@ public interface IDocumentQueryService
     /// <returns>
     /// The <see cref="Document"/> object.
     /// </returns>
-    Task<Document?> Handle(GetDocumentByPortfolioIdQuery query);
+    Task<IEnumerable<Document>> Handle(GetDocumentByPortfolioIdQuery query);
     
     /// <summary>
     /// This method is used to get a document by its id.
@@ -41,5 +42,5 @@ public interface IDocumentQueryService
     /// <returns>
     /// The <see cref="Document"/> object.
     /// </returns>
-    Task<Document?> Handle(GetDocumentByRateTypeQuery query);
+    Task<IEnumerable<Document>> Handle(GetDocumentByRateTypeQuery query);
 }
