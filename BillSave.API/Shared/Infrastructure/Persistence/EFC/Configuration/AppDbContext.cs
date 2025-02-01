@@ -1,6 +1,7 @@
 ﻿using BillSave.API.IAM.Domain.Model.Aggregates;
 using BillSave.API.Portfolio.Domain.Model.Aggregates;
 using BillSave.API.Profiles.Domain.Model.Aggregates;
+using BillSave.API.Sales.Domain.Model.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using BillSave.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
@@ -69,6 +70,41 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             e.Property(p => p.Value).HasColumnName("EffectiveAnnualCostRate");
          });
       
+      // Sales Context
+      builder.Entity<Document>().HasKey(d => d.Id);
+      builder.Entity<Document>().Property(d => d.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<Document>().Property(d => d.PortfolioId).IsRequired();
+      builder.Entity<Document>().Property(d => d.Code).IsRequired();
+      builder.Entity<Document>().OwnsOne(d => d.IssueDate,
+         e =>
+         {
+            e.WithOwner().HasForeignKey("Id");
+            e.Property(p => p.Value).HasColumnName("IssueDate");
+         });
+      builder.Entity<Document>().OwnsOne(d => d.DueDate,
+         e =>
+         {
+            e.WithOwner().HasForeignKey("Id");
+            e.Property(p => p.Value).HasColumnName("DueDate");
+         });
+      builder.Entity<Document>().OwnsOne(d => d.Rate,
+         e =>
+         {
+            e.WithOwner().HasForeignKey("Id");
+            e.Property(p => p.Type).HasColumnName("RateType");
+         });
+      builder.Entity<Document>().OwnsOne(d => d.Rate,
+         e =>
+         {
+            e.WithOwner().HasForeignKey("Id");
+            e.Property(p => p.Value).HasColumnName("RateValue");
+         });
+      builder.Entity<Document>().OwnsOne(d => d.Currency,
+         e =>
+         {
+            e.WithOwner().HasForeignKey("Id");
+            e.Property(p => p.Code).HasColumnName("Currency");
+         });
       
       // Bounded Context
       //...
