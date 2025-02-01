@@ -47,4 +47,10 @@ public partial class Pack
         TotalDocuments = 0;
         EffectiveAnnualCostRate = new EffectiveAnnualCostRate(0);
     }
+
+    public void UpdatePack(UpdatePackCommand command)
+    {
+        Name = command.Name;
+        DiscountDate = command.DiscountDate;
+    }
 }
