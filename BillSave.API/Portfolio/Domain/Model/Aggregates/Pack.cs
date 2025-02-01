@@ -7,7 +7,7 @@ namespace BillSave.API.Portfolio.Domain.Model.Aggregates;
 /// <summary>
 /// This class represents the Portfolio aggregate root. It is used to encapsulate the business logic of the Portfolio entity.
 /// </summary>
-public partial class Portfolio
+public partial class Pack
 {
     public int Id { get; }
     public string Name { get; private set; }
@@ -16,7 +16,7 @@ public partial class Portfolio
     public int TotalDocuments { get; private set; }
     public EffectiveAnnualCostRate EffectiveAnnualCostRate { get; private set; }
 
-    protected Portfolio()
+    public Pack()
     {
         Name = string.Empty;
         DiscountDate = DateTime.MinValue;
@@ -24,7 +24,7 @@ public partial class Portfolio
         EffectiveAnnualCostRate = new EffectiveAnnualCostRate(0);
     }
     
-    public Portfolio(string name, DateTime discountDate, int totalDocuments, EffectiveAnnualCostRate effectiveAnnualCostRate)
+    public Pack(string name, DateTime discountDate, int totalDocuments, EffectiveAnnualCostRate effectiveAnnualCostRate)
     {
         Name = name;
         DiscountDate = discountDate;
@@ -36,9 +36,9 @@ public partial class Portfolio
     /// Constructor for creating a new Portfolio.
     /// </summary>
     /// <param name="command">
-    /// The <see cref="CreatePortfolioCommand"/> command
+    /// The <see cref="CreatePackCommand"/> command
     /// </param>
-    public Portfolio(CreatePortfolioCommand command)
+    public Pack(CreatePackCommand command)
     {
         Name = command.Name;
         DiscountDate = command.DiscountDate;

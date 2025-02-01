@@ -13,4 +13,4 @@ namespace BillSave.API.Portfolio.Domain.Model.Commands;
 /// <param name="TotalDocuments">
 /// The total number of documents in the Portfolio.
 /// </param>
-public record CreatePortfolioCommand(string Name, DateTime DiscountDate, int TotalDocuments);
+public record CreatePackCommand(string Name, DateTime DiscountDate, int TotalDocuments);
