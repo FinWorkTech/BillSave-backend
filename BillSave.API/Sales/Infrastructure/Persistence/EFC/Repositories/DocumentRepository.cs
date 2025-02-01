@@ -23,8 +23,8 @@ public class DocumentRepository(AppDbContext context) : BaseRepository<Document>
     }
     
     /// <inheritdoc />
-    public async Task<bool> ExistsById(int id)
+    public async Task<bool> ExistsByCode(string code)
     {
-        return await Context.Set<Document>().AnyAsync(d => d.Id == id);
+        return await Context.Set<Document>().AnyAsync(d => d.Code == code);
     }
 }

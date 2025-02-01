@@ -21,15 +21,15 @@ public interface IDocumentRepository : IBaseRepository<Document>
     /// </returns>
     Task<IEnumerable<Document>> FindByPortfolioIdAsync(int portfolioId);
     
-    /// Exists By Id
+    /// Exists By Code
     /// <summary>
-    /// This method is used to check if a document exists by its id.
+    /// This method is used to check if a document exists by its code.
     /// </summary>
-    /// <param name="id">
-    /// The id of the document.
+    /// <param name="code">
+    /// The document code.
     /// </param>
     /// <returns>
-    /// True if the document exists, otherwise false.
+    /// True if the document exists, false otherwise.
     /// </returns>
-    Task<bool> ExistsById(int id);
+    Task<bool> ExistsByCode(string code);
 }
