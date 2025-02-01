@@ -7,4 +7,4 @@ namespace BillSave.API.Portfolio.Domain.Model.Queries;
 /// <param name="UserId">
 /// The user id.
 /// </param>
-public record GetPackByUserId(int UserId);
+public record GetPackByUserIdQuery(int UserId);
