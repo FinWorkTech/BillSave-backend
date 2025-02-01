@@ -5,7 +5,7 @@ namespace BillSave.API.Portfolio.Domain.Model.ValueObjects;
 /// </summary>
 public record EffectiveAnnualCostRate
 {
-    private decimal Value { get; }
+    public decimal Value { get; }
 
     public EffectiveAnnualCostRate(decimal value)
     {
