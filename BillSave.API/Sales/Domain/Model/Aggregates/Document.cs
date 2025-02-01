@@ -55,8 +55,8 @@ public partial class Document
         IssueDate = new SimpleDate(command.IssueDate);
         DueDate = new SimpleDate(command.DueDate);
         
-        Rate = new Rate(command.RateValue, command.RateType);
         Currency = new Currency(command.Currency);
+        Rate = Rate.Create(command.RateValue, command.RateType);
 
         PortfolioId = command.PortfolioId;
     }

@@ -10,14 +10,19 @@ public record Rate
 
     public Rate(decimal value, string type)
     {
+        Value = value;
+        Type = type;
+    }
+    
+    public static Rate Create(decimal value, string type)
+    {
         if (value <= 0)
             throw new ArgumentException("The rate must be greater than 0.");
 
         if (type != "Nominal" && type != "Effective")
             throw new ArgumentException("The rate type must be either 'Nominal' or 'Effective'.");
 
-        Value = value;
-        Type = type;
+        return new Rate(value, type);
     }
 
     public override string ToString() => $"{Value} ({Type})";
