@@ -13,7 +13,7 @@ namespace BillSave.API.Portfolio.Infrastructure.Persistence.EFC.Repositories;
 /// <param name="context">
 /// The <see cref="AppDbContext"/> context
 /// </param>
-public class PortfolioRepository(AppDbContext context) : BaseRepository<Pack>(context), IPackRepository
+public class PackRepository(AppDbContext context) : BaseRepository<Pack>(context), IPackRepository
 {
     /// <inheritdoc />
     public async Task<IEnumerable<Pack>> FindByUserIdAsync(int userId)
@@ -22,8 +22,9 @@ public class PortfolioRepository(AppDbContext context) : BaseRepository<Pack>(co
     }
     
     /// <inheritdoc />
-    public async Task<IEnumerable<Pack>> FindByDateAsync(DateTime date)
+    public async Task<IEnumerable<Pack>> FindByDateRangeAsync(DateTime startDate, DateTime endDate)
     {
-        return await Context.Set<Pack>().Where(p => p.DiscountDate.Date == date.Date).ToListAsync();
+       return await Context.Set<Pack>()
+           .Where(p => p.DiscountDate >= startDate && p.DiscountDate <= endDate).ToListAsync();
     }
 }

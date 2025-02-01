@@ -18,4 +18,15 @@ public interface IPackQueryService
     /// The pack.
     /// </returns>
     Task<IEnumerable<Pack>> Handle(GetPackByUserIdQuery query);
+    
+    /// <summary>
+    /// Get a pack by date range.
+    /// </summary>
+    /// <param name="query">
+    /// The query to get a pack by date range.
+    /// </param>
+    /// <returns>
+    /// The pack.
+    /// </returns>
+    Task<IEnumerable<Pack>> Handle(GetPackByDateRange query);
 }

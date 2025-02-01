@@ -21,13 +21,16 @@ public interface IPackRepository : IBaseRepository<Pack>
     Task<IEnumerable<Pack>> FindByUserIdAsync(int userId);
     
     /// <summary>
-    /// Find Packs by Date.
+    /// Find Packs by Date Range.
     /// </summary>
-    /// <param name="date">
-    /// The Date.
+    /// <param name="startDate">
+    /// The start date.
+    /// </param>
+    /// <param name="endDate">
+    /// The end date.
     /// </param>
     /// <returns>
     /// The Packs found.
     /// </returns>
-    Task<IEnumerable<Pack>> FindByDateAsync(DateTime date);
+    Task<IEnumerable<Pack>> FindByDateRangeAsync(DateTime startDate, DateTime endDate);
 }
