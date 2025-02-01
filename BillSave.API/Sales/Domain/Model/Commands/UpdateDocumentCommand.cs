@@ -27,4 +27,4 @@ namespace BillSave.API.Sales.Domain.Model.Commands;
 /// The document portfolio id.
 /// </param>
 public record UpdateDocumentCommand(int Id, string Code, DateTime IssueDate, 
-    DateTime DueDate, string RateType, decimal RateValue, string Currency, int PortfolioId);
+    DateTime DueDate, string RateType, decimal RateValue, string Currency);
