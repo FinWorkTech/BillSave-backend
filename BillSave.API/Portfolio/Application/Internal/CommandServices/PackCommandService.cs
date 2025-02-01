@@ -22,7 +22,7 @@ public class PackCommandService(IPackRepository packRepository, IUnitOfWork unit
     /// <inheritdoc />
     public async Task<Pack?> Handle(CreatePackCommand command)
     {
-        var pack = new Pack(command);
+        var pack = new Pack(command, command.UserId);
 
         try
         {

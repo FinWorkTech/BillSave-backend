@@ -32,15 +32,19 @@ public partial class Pack
         TotalDocuments = totalDocuments;
         EffectiveAnnualCostRate = effectiveAnnualCostRate;
     }
-    
+
     /// <summary>
     /// Constructor for creating a new Portfolio.
     /// </summary>
     /// <param name="command">
     /// The <see cref="CreatePackCommand"/> command
     /// </param>
-    public Pack(CreatePackCommand command)
+    /// <param name="userId">
+    /// The user id of the Portfolio.
+    /// </param>
+    public Pack(CreatePackCommand command, int userId)
     {
+        UserId = userId;
         Name = command.Name;
         DiscountDate = command.DiscountDate;
         
