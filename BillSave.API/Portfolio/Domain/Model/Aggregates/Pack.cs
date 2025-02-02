@@ -57,4 +57,9 @@ public partial class Pack
         Name = command.Name;
         DiscountDate = command.DiscountDate;
     }
+    
+    public void UpdateTotalDocuments(int totalDocuments)
+    {
+        TotalDocuments = totalDocuments;
+    }
 }

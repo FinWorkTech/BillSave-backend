@@ -15,4 +15,7 @@ namespace BillSave.API.Portfolio.Interfaces.REST.Resources;
 /// <param name="DiscountDate">
 /// The discount date of the pack.
 /// </param>
-public record PackResource(int Id, int UserId, string Name, DateTime DiscountDate);
+/// <param name="TotalDocuments">
+/// The total documents of the pack.
+/// </param>
+public record PackResource(int Id, int UserId, string Name, DateTime DiscountDate, int TotalDocuments);

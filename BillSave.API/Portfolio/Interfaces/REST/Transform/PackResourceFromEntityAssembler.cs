@@ -23,7 +23,8 @@ public class PackResourceFromEntityAssembler
             pack.Id,
             pack.UserId,
             pack.Name,
-            pack.DiscountDate
+            pack.DiscountDate,
+            pack.TotalDocuments
             );
     }
 }
