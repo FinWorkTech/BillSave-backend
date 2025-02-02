@@ -24,7 +24,7 @@ public class PacksController(IPackCommandService packCommandService, IPackQueryS
         OperationId = "CreatePortfolio")]
     [SwaggerResponse(StatusCodes.Status201Created, "The portfolio was created", typeof(PackResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The portfolio could not be created")]
-    public async Task<ActionResult> CreateProduct([FromBody] CreatePackResource resource)
+    public async Task<ActionResult> CreatePortfolio([FromBody] CreatePackResource resource)
     {
         var createPackCommand = CreatePackCommandFromResourceAssembler.ToCommandFromResource(resource);
         
@@ -44,7 +44,7 @@ public class PacksController(IPackCommandService packCommandService, IPackQueryS
     [SwaggerResponse(StatusCodes.Status200OK, "The portfolio was updated")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid data provided")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "The portfolio was not found")]
-    public async Task<ActionResult> UpdateProductOwner([FromBody] UpdatePackResource resource)
+    public async Task<ActionResult> UpdatePortfolio([FromBody] UpdatePackResource resource)
     {
         var updatePackCommand = new UpdatePackCommand(resource.Id, resource.Name, resource.DiscountDate);
 
@@ -64,7 +64,7 @@ public class PacksController(IPackCommandService packCommandService, IPackQueryS
     [SwaggerResponse(StatusCodes.Status200OK, 
         "The portfolios were found", typeof(IEnumerable<PackResource>))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "No portfolios found for the given UserId")]
-    public async Task<ActionResult> GetProductsByUserId(int userId)
+    public async Task<ActionResult> GetPortfoliosByUserId(int userId)
     {
         var getPacksByUserIdQuery = new GetPackByUserIdQuery(userId);
         
@@ -82,7 +82,7 @@ public class PacksController(IPackCommandService packCommandService, IPackQueryS
         OperationId = "DeletePortfolio")]
     [SwaggerResponse(StatusCodes.Status204NoContent, "The portfolio was deleted")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "The portfolio was not found")]
-    public async Task<ActionResult> DeleteProduct(int id)
+    public async Task<ActionResult> DeletePortfolio(int id)
     {
         var resource = new DeletePackResource(id);
         
