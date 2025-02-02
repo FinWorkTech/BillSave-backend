@@ -17,4 +17,16 @@ public interface IPortfoliosContextFacade
     /// A task representing the asynchronous operation.
     /// </returns>
     Task IncrementTotalDocumentsAsync(int portfolioId);
+    
+    /// Decrement total documents
+    /// <summary>
+    /// This method is used to decrement the total documents of a portfolio.
+    /// </summary>
+    /// <param name="portfolioId">
+    /// The portfolio id.
+    /// </param>
+    /// <returns>
+    /// A task representing the asynchronous operation.
+    /// </returns>
+    Task DecrementTotalDocumentsAsync(int portfolioId);
 }

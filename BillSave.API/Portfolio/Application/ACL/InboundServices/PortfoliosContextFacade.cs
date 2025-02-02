@@ -44,7 +44,7 @@ public class PortfoliosContextFacade(IPackRepository packRepository) : IPortfoli
     /// <param name="portfolioId">
     /// The Portfolio id.
     /// </param>
-    public async Task DecrementTotalDocumentAsync(int portfolioId)
+    public async Task DecrementTotalDocumentsAsync(int portfolioId)
     {
         var pack = await packRepository.FindByIdAsync(portfolioId);
         
