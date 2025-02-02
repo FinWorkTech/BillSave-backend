@@ -1,3 +1,4 @@
+using BillSave.API.Sales.Application.ACL.OutboundServices;
 using BillSave.API.Sales.Domain.Model.Aggregates;
 using BillSave.API.Sales.Domain.Model.Commands;
 using BillSave.API.Sales.Domain.Repositories;
@@ -16,7 +17,8 @@ namespace BillSave.API.Sales.Application.Internal.CommandServices;
 /// <param name="unitOfWork">
 /// The <see cref="IUnitOfWork"/> unit of work.
 /// </param>
-public class DocumentCommandService(IDocumentRepository documentRepository, IUnitOfWork unitOfWork)
+public class DocumentCommandService(IDocumentRepository documentRepository, 
+    IUnitOfWork unitOfWork, ExternalPortfolioService externalPortfolioService)
     : IDocumentCommandService
 {
     /// <inheritdoc/>
@@ -33,6 +35,7 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
 
         try
         {
+            await externalPortfolioService.IncrementTotalDocumentsAsync(command.PortfolioId);
             await documentRepository.AddAsync(document);
             await unitOfWork.CompleteAsync();
         }
