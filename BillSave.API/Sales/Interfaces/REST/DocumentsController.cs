@@ -13,8 +13,8 @@ namespace BillSave.API.Sales.Interfaces.REST;
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Documents")]
-public class DocumentsController(IDocumentCommandService documentCommandService, IDocumentQueryService documentQueryService)
-    : ControllerBase
+public class DocumentsController(IDocumentCommandService documentCommandService, 
+    IDocumentQueryService documentQueryService) : ControllerBase
 {
     
     [HttpPost]
@@ -74,5 +74,23 @@ public class DocumentsController(IDocumentCommandService documentCommandService,
         var resources = result.Select(DocumentResourceFromEntityAssembler.ToResourceFromEntity);
         
         return Ok(resources);
+    }
+    
+    [HttpDelete("{id}")]
+    [SwaggerOperation(
+        Summary = "Delete a document by ID",
+        Description = "Delete the document with the specified ID",
+        OperationId = "DeleteDocument")]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The document was deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The document was not found")]
+    public async Task<ActionResult> DeletePortfolio(int id, [FromQuery] int portfolioId)
+    {
+        var resource = new DeleteDocumentResource(id, portfolioId);
+        
+        var deleteDocumentCommand = DeleteDocumentCommandFromResourceAssembler.ToCommandFromResource(resource);
+        
+        await documentCommandService.Handle(deleteDocumentCommand);
+        
+        return NoContent();
     }
 }

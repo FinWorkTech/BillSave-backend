@@ -71,4 +71,26 @@ public class DocumentCommandService(IDocumentRepository documentRepository,
 
         return document;
     }
+    
+    /// <inheritdoc/>
+    public async Task<Document?> Handle(DeleteDocumentCommand command)
+    {
+        var document = await documentRepository.FindByIdAsync(command.Id);
+        
+        if (document == null)
+            throw new Exception("Document not found.");
+        
+        try
+        {
+            await externalPortfolioService.DecrementTotalDocumentsAsync(command.PortfolioId);
+            documentRepository.Remove(document);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+        
+        return document;
+    }
 }

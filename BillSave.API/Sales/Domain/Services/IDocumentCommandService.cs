@@ -30,4 +30,15 @@ public interface IDocumentCommandService
     /// The <see cref="Document"/> object.
     /// </returns>
     Task<Document?> Handle(UpdateDocumentCommand command);
+    
+    /// <summary>
+    /// This method is used to get a document by its id.
+    /// </summary>
+    /// <param name="command">
+    /// The <see cref="DeleteDocumentCommand"/> command.
+    /// </param>
+    /// <returns>
+    /// The <see cref="Document"/> object.
+    /// </returns>
+    Task<Document?> Handle(DeleteDocumentCommand command);
 }

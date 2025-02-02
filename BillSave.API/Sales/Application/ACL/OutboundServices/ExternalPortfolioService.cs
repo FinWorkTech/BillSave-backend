@@ -21,4 +21,9 @@ public class ExternalPortfolioService(IPortfoliosContextFacade portfoliosContext
     {
         await portfoliosContextFacade.IncrementTotalDocumentsAsync(portfolioId);
     }
+    
+    public async Task DecrementTotalDocumentsAsync(int portfolioId)
+    {
+        await portfoliosContextFacade.DecrementTotalDocumentsAsync(portfolioId);
+    }
 }
