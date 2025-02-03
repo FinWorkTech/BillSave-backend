@@ -1,9 +1,11 @@
 using BillSave.API.Sales.Application.ACL.OutboundServices;
 using BillSave.API.Sales.Domain.Model.Aggregates;
 using BillSave.API.Sales.Domain.Model.Commands;
+using BillSave.API.Sales.Domain.Model.Events;
 using BillSave.API.Sales.Domain.Repositories;
 using BillSave.API.Sales.Domain.Services;
 using BillSave.API.Shared.Domain.Repositories;
+using MediatR;
 
 namespace BillSave.API.Sales.Application.Internal.CommandServices;
 
@@ -17,9 +19,8 @@ namespace BillSave.API.Sales.Application.Internal.CommandServices;
 /// <param name="unitOfWork">
 /// The <see cref="IUnitOfWork"/> unit of work.
 /// </param>
-public class DocumentCommandService(IDocumentRepository documentRepository, 
-    IUnitOfWork unitOfWork, ExternalPortfolioService externalPortfolioService)
-    : IDocumentCommandService
+public class DocumentCommandService(IDocumentRepository documentRepository, IUnitOfWork unitOfWork, 
+    ExternalPortfolioService externalPortfolioService, IMediator mediator) : IDocumentCommandService
 {
     /// <inheritdoc/>
     public async Task<Document?> Handle(CreateDocumentCommand command)
@@ -37,6 +38,7 @@ public class DocumentCommandService(IDocumentRepository documentRepository,
         {
             await externalPortfolioService.IncrementTotalDocumentsAsync(command.PortfolioId);
             await documentRepository.AddAsync(document);
+            await mediator.Publish(new DocumentChangedEvent(command.PortfolioId));
             await unitOfWork.CompleteAsync();
         }
         catch (Exception e)
@@ -48,27 +50,28 @@ public class DocumentCommandService(IDocumentRepository documentRepository,
     }
     
     /// <inheritdoc/>
-    public async Task<Document?> Handle(UpdateDocumentCommand command)
+   public async Task<Document?> Handle(UpdateDocumentCommand command)
     {
         var document = await documentRepository.FindByIdAsync(command.Id);
         
         if (document == null)
         {
-            throw new Exception("Document not found.");
+            throw new System.Exception("Document not found.");
         }
         
         document.UpdateDocument(command);
-
+    
         try
         {
             documentRepository.Update(document);
+            await mediator.Publish(new DocumentChangedEvent(document.PortfolioId));
             await unitOfWork.CompleteAsync();
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
-            throw new Exception("An error occurred while updating the document.", e);
+            throw new System.Exception("An error occurred while updating the document.", e);
         }
-
+    
         return document;
     }
     
@@ -76,6 +79,8 @@ public class DocumentCommandService(IDocumentRepository documentRepository,
     public async Task<Document?> Handle(DeleteDocumentCommand command)
     {
         var document = await documentRepository.FindByIdAsync(command.Id);
+
+        var portfolioId = document?.PortfolioId ?? 0;
         
         if (document == null)
             throw new Exception("Document not found.");
@@ -84,6 +89,7 @@ public class DocumentCommandService(IDocumentRepository documentRepository,
         {
             await externalPortfolioService.DecrementTotalDocumentsAsync(command.PortfolioId);
             documentRepository.Remove(document);
+            await mediator.Publish(new DocumentChangedEvent(portfolioId));
             await unitOfWork.CompleteAsync();
         }
         catch (Exception e)
