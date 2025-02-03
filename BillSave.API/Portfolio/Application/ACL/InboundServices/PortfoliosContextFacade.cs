@@ -61,4 +61,35 @@ public class PortfoliosContextFacade(IPackRepository packRepository) : IPortfoli
             throw new Exception("Error updating Portfolio", ex);
         }
     }
+
+    /// Update effective annual cost rate.
+    /// <summary>
+    /// Update the effective annual cost rate of a Portfolio.
+    /// </summary>
+    /// <param name="portfolioId">
+    /// The Portfolio id.
+    /// </param>
+    /// <param name="effectiveAnnualCostRate">
+    /// The effective annual cost rate.
+    /// </param>
+    /// <returns>
+    /// A task representing the asynchronous operation.
+    /// </returns>
+    public async Task UpdateEffectiveAnnualCostRateAsync(int portfolioId, decimal effectiveAnnualCostRate)
+    {
+        var pack = await packRepository.FindByIdAsync(portfolioId);
+        
+        if (pack == null)
+            throw new Exception("Portfolio not found");
+
+        try
+        {
+            pack.UpdateEffectiveAnnualCostRate(effectiveAnnualCostRate);
+            packRepository.Update(pack);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Error updating Portfolio", ex);
+        }
+    }
 }

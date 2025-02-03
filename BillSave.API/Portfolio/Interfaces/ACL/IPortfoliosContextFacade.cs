@@ -29,4 +29,19 @@ public interface IPortfoliosContextFacade
     /// A task representing the asynchronous operation.
     /// </returns>
     Task DecrementTotalDocumentsAsync(int portfolioId);
+    
+    /// Update effective annual cost rate
+    /// <summary>
+    /// This method is used to update the effective annual cost rate of a portfolio.
+    /// </summary>
+    /// <param name="portfolioId">
+    /// The portfolio id.
+    /// </param>
+    /// <param name="effectiveAnnualCostRate">
+    /// The effective annual cost rate.
+    /// </param>
+    /// <returns>
+    /// A task representing the asynchronous operation.
+    /// </returns>
+    Task UpdateEffectiveAnnualCostRateAsync(int portfolioId, decimal effectiveAnnualCostRate);
 }
