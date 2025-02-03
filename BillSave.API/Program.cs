@@ -9,6 +9,7 @@ using BillSave.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
 using BillSave.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 using BillSave.API.IAM.Infrastructure.Tokens.JWT.Services;
 using BillSave.API.Portfolio.Application.ACL.InboundServices;
+using BillSave.API.Portfolio.Application.ACL.OutboundServices;
 using BillSave.API.Portfolio.Application.Internal.CommandServices;
 using BillSave.API.Portfolio.Application.Internal.QueryServices;
 using BillSave.API.Portfolio.Domain.Repositories;
@@ -147,6 +148,7 @@ builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
 builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
 builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
+builder.Services.AddScoped<ExternalSalesService>();
 
 // IAM Bounded Context Dependency Injection Configuration
 
