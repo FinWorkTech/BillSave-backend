@@ -1,4 +1,5 @@
 using System.IO.Pipes;
+using BillSave.API.Portfolio.Application.ACL.OutboundServices;
 using BillSave.API.Portfolio.Domain.Model.Aggregates;
 using BillSave.API.Portfolio.Domain.Model.Commands;
 using BillSave.API.Portfolio.Domain.Repositories;
@@ -16,8 +17,8 @@ namespace BillSave.API.Portfolio.Application.Internal.CommandServices;
 /// <param name="unitOfWork">
 /// The <see cref="IUnitOfWork"/> instance.
 /// </param>
-public class PackCommandService(IPackRepository packRepository, IUnitOfWork unitOfWork)
-    : IPackCommandService
+public class PackCommandService(IPackRepository packRepository, 
+    IUnitOfWork unitOfWork, ExternalSalesService externalSalesService) : IPackCommandService
 {
     /// <inheritdoc />
     public async Task<Pack?> Handle(CreatePackCommand command)
@@ -48,6 +49,7 @@ public class PackCommandService(IPackRepository packRepository, IUnitOfWork unit
         try
         {
             packRepository.Remove(pack);
+            await externalSalesService.DeleteByPortfolioIdAsync(pack.Id);
             await unitOfWork.CompleteAsync();
         }
         catch (Exception e)
