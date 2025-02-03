@@ -22,5 +22,8 @@ namespace BillSave.API.Sales.Domain.Model.Commands;
 /// <param name="PortfolioId">
 /// The document portfolio id.
 /// </param>
+/// <param name="NominalAmount">
+/// The document nominal amount.
+/// </param>
 public record CreateDocumentCommand(string Code, DateTime IssueDate, 
-    DateTime DueDate, string RateType, decimal RateValue, string Currency,int PortfolioId);
+    DateTime DueDate, string RateType, decimal RateValue, string Currency, decimal NominalAmount, int PortfolioId);

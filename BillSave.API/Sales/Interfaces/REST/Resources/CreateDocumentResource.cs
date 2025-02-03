@@ -34,5 +34,6 @@ public record CreateDocumentResource(
     string RateType,
     decimal RateValue,
     string Currency,
+    decimal NominalAmount,
     int PortfolioId
     );

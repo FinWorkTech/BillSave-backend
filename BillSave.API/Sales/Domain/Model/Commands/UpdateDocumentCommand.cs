@@ -23,8 +23,6 @@ namespace BillSave.API.Sales.Domain.Model.Commands;
 /// <param name="RateValue">
 /// The document rate value.
 /// </param>
-/// <param name="PortfolioId">
-/// The document portfolio id.
-/// </param>
+/// <param name="NominalAmount"></param>
 public record UpdateDocumentCommand(int Id, string Code, DateTime IssueDate, 
-    DateTime DueDate, string RateType, decimal RateValue, string Currency);
+    DateTime DueDate, string RateType, decimal RateValue, string Currency, decimal NominalAmount);

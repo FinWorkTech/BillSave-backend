@@ -47,7 +47,7 @@ public class DocumentsController(IDocumentCommandService documentCommandService,
     public async Task<ActionResult> UpdateDocument([FromBody] UpdateDocumentResource resource)
     {
         var updateDocumentCommand = new UpdateDocumentCommand(resource.Id, resource.Code, resource.IssueDate,
-            resource.DueDate, resource.RateType, resource.RateValue, resource.Currency);
+            resource.DueDate, resource.RateType, resource.RateValue, resource.Currency, resource.NominalAmount);
 
         var result = await documentCommandService.Handle(updateDocumentCommand);
 

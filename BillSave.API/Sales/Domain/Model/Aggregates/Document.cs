@@ -17,6 +17,7 @@ public partial class Document
     
     public Rate Rate { get; private set; }
     public Currency Currency { get; private set; }
+    public decimal NominalAmount { get; private set; }
     
     public int PortfolioId { get; }
 
@@ -31,9 +32,11 @@ public partial class Document
         Currency = new Currency("USD");
 
         PortfolioId = 0;
+        NominalAmount = 0;
     }
     
-    public Document(string code, SimpleDate issueDate, SimpleDate dueDate, Rate rate, Currency currency, int portfolioId)
+    public Document(string code, SimpleDate issueDate, 
+        SimpleDate dueDate, Rate rate, Currency currency, decimal nominalAmount, int portfolioId)
     {
         Code = code;
         IssueDate = issueDate;
@@ -41,7 +44,8 @@ public partial class Document
         
         Rate = rate;
         Currency = currency;
-
+        NominalAmount = nominalAmount;
+        
         PortfolioId = portfolioId;
     }
     
@@ -57,7 +61,8 @@ public partial class Document
         
         Currency = new Currency(command.Currency);
         Rate = Rate.Create(command.RateValue, command.RateType);
-
+        NominalAmount = command.NominalAmount;
+        
         PortfolioId = command.PortfolioId;
     }
     
@@ -74,7 +79,8 @@ public partial class Document
         DueDate = new SimpleDate(command.DueDate);
         IssueDate = new SimpleDate(command.IssueDate);
         
-        Rate = new Rate(command.RateValue, command.RateType);
         Currency = new Currency(command.Currency);
+        Rate = new Rate(command.RateValue, command.RateType);
+        NominalAmount = command.NominalAmount;
     }
 }

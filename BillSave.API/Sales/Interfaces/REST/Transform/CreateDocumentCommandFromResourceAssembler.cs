@@ -27,6 +27,7 @@ public class CreateDocumentCommandFromResourceAssembler
             resource.RateType,
             resource.RateValue,
             resource.Currency,
+            resource.NominalAmount,
             resource.PortfolioId
         );
     }

@@ -14,7 +14,8 @@ public class UpdateDocumentCommandFromResourceAssembler
             resource.DueDate,
             resource.RateType,
             resource.RateValue,
-            resource.Currency
+            resource.Currency,
+            resource.NominalAmount
             );
     }
 }
