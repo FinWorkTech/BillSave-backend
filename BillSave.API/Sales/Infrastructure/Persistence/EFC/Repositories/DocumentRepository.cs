@@ -40,4 +40,12 @@ public class DocumentRepository(AppDbContext context) : BaseRepository<Document>
     {
         return await Context.Set<Document>().AnyAsync(d => d.Code == code);
     }
+    
+    /// <inheritdoc />
+    public async Task DeleteDocumentsByPortfolioIdAsync(int portfolioId)
+    {
+        var documents = Context.Set<Document>().Where(d => d.PortfolioId == portfolioId);
+        Context.Set<Document>().RemoveRange(documents);
+        await Context.SaveChangesAsync();
+    }
 }

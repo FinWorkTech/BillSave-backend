@@ -58,4 +58,16 @@ public interface IDocumentRepository : IBaseRepository<Document>
     /// True if the document exists, false otherwise.
     /// </returns>
     Task<bool> ExistsByCode(string code);
+    
+    /// Delete By Portfolio Id
+    /// <summary>
+    /// This method is used to delete the documents by the portfolio id.
+    /// </summary>
+    /// <param name="portfolioId">
+    /// The portfolio id.
+    /// </param>
+    /// <returns>
+    /// The task.
+    /// </returns>
+    Task DeleteDocumentsByPortfolioIdAsync(int portfolioId);
 }

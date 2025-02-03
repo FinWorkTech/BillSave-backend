@@ -18,4 +18,10 @@ public class SalesContextFacade(IDocumentRepository documentRepository) : ISales
     {
         return await documentRepository.FindByPortfolioIdAsync(portfolioId);
     }
+    
+    
+    public async Task DeleteDocumentsByPortfolioIdAsync(int portfolioId)
+    {
+        await documentRepository.DeleteDocumentsByPortfolioIdAsync(portfolioId);
+    }
 }
