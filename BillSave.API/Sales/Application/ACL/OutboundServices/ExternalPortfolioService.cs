@@ -26,4 +26,9 @@ public class ExternalPortfolioService(IPortfoliosContextFacade portfoliosContext
     {
         await portfoliosContextFacade.DecrementTotalDocumentsAsync(portfolioId);
     }
+
+    public async Task UpdateEffectiveAnnualCostRateAsync(int portfolioId, decimal effectiveAnnualCostRate)
+    {
+        await portfoliosContextFacade.UpdateEffectiveAnnualCostRateAsync(portfolioId, effectiveAnnualCostRate);
+    }
 }
