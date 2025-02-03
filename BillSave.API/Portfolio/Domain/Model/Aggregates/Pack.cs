@@ -62,4 +62,9 @@ public partial class Pack
     {
         TotalDocuments = totalDocuments;
     }
+    
+    public void UpdateEffectiveAnnualCostRate(decimal effectiveAnnualCostRate)
+    {
+        EffectiveAnnualCostRate = new EffectiveAnnualCostRate(effectiveAnnualCostRate);
+    }
 }
