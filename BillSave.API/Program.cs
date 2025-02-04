@@ -26,6 +26,7 @@ using BillSave.API.Profiles.Interfaces.ACL;
 using BillSave.API.Sales.Application.ACL.InboundServices;
 using BillSave.API.Sales.Application.ACL.OutboundServices;
 using BillSave.API.Sales.Application.Internal.CommandServices;
+using BillSave.API.Sales.Application.Internal.EventHandlers;
 using BillSave.API.Sales.Application.Internal.QueryServices;
 using BillSave.API.Sales.Domain.Repositories;
 using BillSave.API.Sales.Domain.Services;
@@ -171,7 +172,11 @@ builder.Services.AddExceptionHandler<CommonExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 // Registrar MediatR
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
+    typeof(Program).Assembly, 
+    typeof(DocumentChangedEventHandler).Assembly
+));
+
 
 var app = builder.Build();
 
