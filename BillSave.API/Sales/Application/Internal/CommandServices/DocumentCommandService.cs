@@ -38,6 +38,8 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
         {
             await externalPortfolioService.IncrementTotalDocumentsAsync(command.PortfolioId);
             await documentRepository.AddAsync(document);
+            await unitOfWork.CompleteAsync();
+            
             await mediator.Publish(new DocumentChangedEvent(command.PortfolioId));
             await unitOfWork.CompleteAsync();
         }
@@ -64,6 +66,8 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
         try
         {
             documentRepository.Update(document);
+            await unitOfWork.CompleteAsync();
+            
             await mediator.Publish(new DocumentChangedEvent(document.PortfolioId));
             await unitOfWork.CompleteAsync();
         }
@@ -89,8 +93,10 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
         {
             await externalPortfolioService.DecrementTotalDocumentsAsync(command.PortfolioId);
             documentRepository.Remove(document);
-            await mediator.Publish(new DocumentChangedEvent(portfolioId));
             await unitOfWork.CompleteAsync();
+            
+            await mediator.Publish(new DocumentChangedEvent(portfolioId));
+            await unitOfWork.CompleteAsync();   
         }
         catch (Exception e)
         {
