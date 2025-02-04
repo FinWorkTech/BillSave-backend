@@ -67,7 +67,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
          e =>
          {
             e.WithOwner().HasForeignKey("Id");
-            e.Property(p => p.Value).HasColumnName("EffectiveAnnualCostRate");
+            e.Property(p => p.Value).HasColumnName("EffectiveAnnualCostRate")
+               .HasColumnType("decimal(18,6)");
          });
       
       // Sales Context
