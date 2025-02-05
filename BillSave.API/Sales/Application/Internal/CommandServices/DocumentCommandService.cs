@@ -25,11 +25,11 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
     /// <inheritdoc/>
     public async Task<Document?> Handle(CreateDocumentCommand command)
     {
-        var exists = await documentRepository.ExistsByCode(command.Code);
+        var exists = await documentRepository.ExistsByCodeAndPortfolioIdAsync(command.Code, command.PortfolioId);
         
         if (exists)
         {
-            throw new Exception("Document with the same code already exists.");
+            throw new Exception("Document already exists.");
         }
 
         var document = new Document(command);

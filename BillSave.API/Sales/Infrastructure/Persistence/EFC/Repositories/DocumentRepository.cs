@@ -36,9 +36,9 @@ public class DocumentRepository(AppDbContext context) : BaseRepository<Document>
     }
 
     /// <inheritdoc />
-    public async Task<bool> ExistsByCode(string code)
+    public async Task<bool> ExistsByCodeAndPortfolioIdAsync(string code, int portfolioId)
     {
-        return await Context.Set<Document>().AnyAsync(d => d.Code == code);
+        return await Context.Set<Document>().AnyAsync(d => d.Code == code && d.PortfolioId == portfolioId);
     }
     
     /// <inheritdoc />

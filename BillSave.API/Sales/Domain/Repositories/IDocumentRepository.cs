@@ -47,17 +47,20 @@ public interface IDocumentRepository : IBaseRepository<Document>
     /// </returns>
     Task<IEnumerable<Document>> FinByRateTypeAsync(string rateType);
     
-    /// Exists By Code
+    /// Exists By Code And Portfolio Id
     /// <summary>
-    /// This method is used to check if a document exists by its code.
+    /// This method is used to check if the document exists by the code and portfolio id.
     /// </summary>
     /// <param name="code">
     /// The document code.
     /// </param>
+    /// <param name="portfolioId">
+    /// The portfolio id.
+    /// </param>
     /// <returns>
     /// True if the document exists, false otherwise.
     /// </returns>
-    Task<bool> ExistsByCode(string code);
+    Task<bool> ExistsByCodeAndPortfolioIdAsync(string code, int portfolioId);
     
     /// Delete By Portfolio Id
     /// <summary>
