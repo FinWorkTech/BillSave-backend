@@ -18,4 +18,8 @@ namespace BillSave.API.Portfolio.Interfaces.REST.Resources;
 /// <param name="TotalDocuments">
 /// The total documents of the pack.
 /// </param>
-public record PackResource(int Id, int UserId, string Name, DateTime DiscountDate, int TotalDocuments);
+/// <param name="EffectiveAnnualCostRate">
+/// The effective annual cost rate of the pack.
+/// </param>
+public record PackResource(int Id, int UserId, string Name, 
+    DateTime DiscountDate, int TotalDocuments, decimal EffectiveAnnualCostRate);

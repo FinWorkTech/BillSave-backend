@@ -24,7 +24,8 @@ public class PackResourceFromEntityAssembler
             pack.UserId,
             pack.Name,
             pack.DiscountDate,
-            pack.TotalDocuments
+            pack.TotalDocuments,
+            pack.EffectiveAnnualCostRate.Value
             );
     }
 }
