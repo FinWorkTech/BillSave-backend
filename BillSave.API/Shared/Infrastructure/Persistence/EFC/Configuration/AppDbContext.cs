@@ -98,7 +98,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
          e =>
          {
             e.WithOwner().HasForeignKey("Id");
-            e.Property(p => p.Value).HasColumnName("RateValue");
+            e.Property(p => p.Value).HasColumnName("RateValue")
+               .HasColumnType("decimal(18,6)");
          });
       builder.Entity<Document>().OwnsOne(d => d.Currency,
          e =>
