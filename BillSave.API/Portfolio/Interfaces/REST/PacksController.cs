@@ -56,7 +56,7 @@ public class PacksController(IPackCommandService packCommandService, IPackQueryS
         return Ok("Portfolio updated successfully");
     }
     
-    [HttpGet("users/{userId}/portfolios")]
+    [HttpGet]
     [SwaggerOperation(
         Summary = "Get portfolios by UserId",
         Description = "Get all portfolios associated with the specified UserId",
