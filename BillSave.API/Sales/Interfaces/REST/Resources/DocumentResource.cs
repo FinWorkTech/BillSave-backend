@@ -36,5 +36,6 @@ public record DocumentResource(
     DateTime DueDate,
     string RateType,
     decimal RateValue,
-    string Currency
+    string Currency,
+    decimal NominalAmount
     );

@@ -57,7 +57,7 @@ public class DocumentsController(IDocumentCommandService documentCommandService,
         return Ok("Document updated successfully");
     }
     
-    [HttpGet("portfolios/{portfolioId}/documents")]
+    [HttpGet]
     [SwaggerOperation(
         Summary = "Get documents by Portfolio Id",
         Description = "Get all documents associated with the specified Portfolio Id",

@@ -29,7 +29,8 @@ public class DocumentResourceFromEntityAssembler
             entity.DueDate.Value,
             entity.Rate.Type,
             entity.Rate.Value,
-            entity.Currency.Code
+            entity.Currency.Code,
+            entity.NominalAmount
             );
     }
 }
