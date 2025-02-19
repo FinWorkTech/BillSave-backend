@@ -75,6 +75,26 @@ public class PacksController(IPackCommandService packCommandService, IPackQueryS
         return Ok(resources);
     }
     
+    [HttpGet("summary")]
+    [SwaggerOperation(
+        Summary = "Get portfolio summary by UserId",
+        Description = "Get portfolio summary associated with the specified UserId",
+        OperationId = "GetPortfolioSummaryByUserId")]
+    [SwaggerResponse(StatusCodes.Status200OK, 
+        "The portfolios were found", typeof(IEnumerable<PackSummaryResource>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "No portfolios found for the given UserId")]
+    public async Task<ActionResult> GetPortfoliosSummaryByUserId(int userId)
+    {
+        var getPackSummaryByUserIdQuery = new GetPackSummaryByUserIdQuery(userId);
+        
+        var result = await packQueryService.Handle(getPackSummaryByUserIdQuery);
+        
+        var resource = PackSummaryResourceFromEntityAssembler.ToResourceFromEntity(result);
+        
+        return Ok(resource);
+    }
+    
+    
     [HttpDelete("{id}")]
     [SwaggerOperation(
         Summary = "Delete a portfolio by ID",
