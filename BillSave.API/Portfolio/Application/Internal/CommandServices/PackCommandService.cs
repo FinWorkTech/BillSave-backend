@@ -23,6 +23,9 @@ public class PackCommandService(IPackRepository packRepository,
     /// <inheritdoc />
     public async Task<Pack?> Handle(CreatePackCommand command)
     {
+        if (await packRepository.ExistsByNameAndUserIdAsync(command.Name, command.UserId))
+            throw new Exception("Pack with the same name already exists.");
+        
         var pack = new Pack(command, command.UserId);
 
         try

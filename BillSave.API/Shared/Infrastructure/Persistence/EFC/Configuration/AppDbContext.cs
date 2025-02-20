@@ -60,9 +60,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Pack>().HasKey(p => p.Id);
       builder.Entity<Pack>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
       builder.Entity<Pack>().Property(p => p.Name).IsRequired();
-      builder.Entity<Pack>().Property(p => p.DiscountDate).IsRequired();
       builder.Entity<Pack>().Property(p => p.UserId).IsRequired();
       builder.Entity<Pack>().Property(p => p.TotalDocuments).IsRequired();
+      builder.Entity<Pack>().OwnsOne(p => p.DiscountDate,
+         e =>
+         {
+            e.WithOwner().HasForeignKey("Id");
+            e.Property(p => p.Value).HasColumnName("DiscountDate");
+         });
       builder.Entity<Pack>().OwnsOne(p => p.EffectiveAnnualCostRate,
          e =>
          {
