@@ -21,10 +21,16 @@ public class PackRepository(AppDbContext context) : BaseRepository<Pack>(context
        return await Context.Set<Pack>().Where(p => p.UserId == userId).ToListAsync();
     }
     
+    /// <inheritdoc/>
+    public Task<bool> ExistsByNameAndUserIdAsync(string name, int userId)
+    {
+        return Context.Set<Pack>().AnyAsync(p => p.Name == name && p.UserId == userId);
+    }
+
     /// <inheritdoc />
     public async Task<IEnumerable<Pack>> FindByDateRangeAsync(DateTime startDate, DateTime endDate)
     {
        return await Context.Set<Pack>()
-           .Where(p => p.DiscountDate >= startDate && p.DiscountDate <= endDate).ToListAsync();
+           .Where(p => p.DiscountDate.Value >= startDate && p.DiscountDate.Value <= endDate).ToListAsync();
     }
 }
