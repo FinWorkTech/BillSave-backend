@@ -23,7 +23,7 @@ public class PackResourceFromEntityAssembler
             pack.Id,
             pack.UserId,
             pack.Name,
-            pack.DiscountDate,
+            pack.DiscountDate.ToString(),
             pack.TotalDocuments,
             pack.EffectiveAnnualCostRate.Value
             );
