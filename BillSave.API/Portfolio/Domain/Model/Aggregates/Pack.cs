@@ -1,5 +1,6 @@
 using BillSave.API.Portfolio.Domain.Model.Commands;
 using BillSave.API.Portfolio.Domain.Model.ValueObjects;
+using BillSave.API.Shared.Domain.Model;
 
 namespace BillSave.API.Portfolio.Domain.Model.Aggregates;
 
@@ -12,7 +13,7 @@ public partial class Pack
     public int Id { get; }
     public int UserId { get; }
     public string Name { get; private set; }
-    public DateTime DiscountDate { get; private set; }
+    public SimpleDate DiscountDate { get; private set; }
     
     public int TotalDocuments { get; private set; }
     public EffectiveAnnualCostRate EffectiveAnnualCostRate { get; private set; }
@@ -20,7 +21,7 @@ public partial class Pack
     public Pack()
     {
         Name = string.Empty;
-        DiscountDate = DateTime.MinValue;
+        DiscountDate = new SimpleDate(DateTime.MinValue);
         TotalDocuments = 0;
         EffectiveAnnualCostRate = new EffectiveAnnualCostRate(0);
     }
@@ -28,7 +29,7 @@ public partial class Pack
     public Pack(string name, DateTime discountDate, int totalDocuments, EffectiveAnnualCostRate effectiveAnnualCostRate)
     {
         Name = name;
-        DiscountDate = discountDate;
+        DiscountDate = new SimpleDate(discountDate);
         TotalDocuments = totalDocuments;
         EffectiveAnnualCostRate = effectiveAnnualCostRate;
     }
@@ -46,7 +47,7 @@ public partial class Pack
     {
         UserId = userId;
         Name = command.Name;
-        DiscountDate = command.DiscountDate;
+        DiscountDate = new SimpleDate(command.DiscountDate);
         
         TotalDocuments = 0;
         EffectiveAnnualCostRate = new EffectiveAnnualCostRate(0);
@@ -55,7 +56,7 @@ public partial class Pack
     public void UpdatePack(UpdatePackCommand command)
     {
         Name = command.Name;
-        DiscountDate = command.DiscountDate;
+        DiscountDate = new SimpleDate(command.DiscountDate);
     }
     
     public void UpdateTotalDocuments(int totalDocuments)

@@ -24,6 +24,7 @@ public class PacksController(IPackCommandService packCommandService, IPackQueryS
         OperationId = "CreatePortfolio")]
     [SwaggerResponse(StatusCodes.Status201Created, "The portfolio was created", typeof(PackResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The portfolio could not be created")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Portfolio with the same name already exists")]
     public async Task<ActionResult> CreatePortfolio([FromBody] CreatePackResource resource)
     {
         var createPackCommand = CreatePackCommandFromResourceAssembler.ToCommandFromResource(resource);
