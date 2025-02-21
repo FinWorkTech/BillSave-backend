@@ -25,6 +25,11 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
     /// <inheritdoc/>
     public async Task<Document?> Handle(CreateDocumentCommand command)
     {
+        if (command.DueDate <= command.IssueDate)
+        {
+            throw new ArgumentException("Due date must be greater than the issue date.");
+        }
+        
         var exists = await documentRepository.ExistsByCodeAndPortfolioIdAsync(command.Code, command.PortfolioId);
         
         if (exists)
