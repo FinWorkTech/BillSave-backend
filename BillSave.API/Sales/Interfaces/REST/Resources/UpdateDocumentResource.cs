@@ -26,7 +26,6 @@ namespace BillSave.API.Sales.Interfaces.REST.Resources;
 /// The document currency.
 /// </param>
 public record UpdateDocumentResource(
-    int Id,
     string Code,
     DateTime IssueDate,
     DateTime DueDate,

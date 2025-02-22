@@ -5,10 +5,10 @@ namespace BillSave.API.Sales.Interfaces.REST.Transform;
 
 public class UpdateDocumentCommandFromResourceAssembler
 {
-    public static UpdateDocumentCommand ToCommandFromResource(UpdateDocumentResource resource)
+    public static UpdateDocumentCommand ToCommandFromResource(UpdateDocumentResource resource, int documentId)
     {
         return new UpdateDocumentCommand(
-            resource.Id,
+            documentId,
             resource.Code,
             resource.IssueDate,
             resource.DueDate,
