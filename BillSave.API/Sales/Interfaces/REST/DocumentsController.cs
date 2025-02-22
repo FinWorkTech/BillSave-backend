@@ -36,7 +36,7 @@ public class DocumentsController(IDocumentCommandService documentCommandService,
         return Created(string.Empty, DocumentResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
     
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     [SwaggerOperation(
         Summary = "Update the document",
         Description = "Update the specified document",
@@ -44,9 +44,9 @@ public class DocumentsController(IDocumentCommandService documentCommandService,
     [SwaggerResponse(StatusCodes.Status200OK, "The document was updated")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid data provided")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "The document was not found")]
-    public async Task<ActionResult> UpdateDocument([FromBody] UpdateDocumentResource resource)
+    public async Task<ActionResult> UpdateDocument([FromBody] UpdateDocumentResource resource, int id)
     {
-        var updateDocumentCommand = new UpdateDocumentCommand(resource.Id, resource.Code, resource.IssueDate,
+        var updateDocumentCommand = new UpdateDocumentCommand(id, resource.Code, resource.IssueDate,
             resource.DueDate, resource.RateType, resource.RateValue, resource.Currency, resource.NominalAmount);
 
         var result = await documentCommandService.Handle(updateDocumentCommand);
@@ -74,6 +74,25 @@ public class DocumentsController(IDocumentCommandService documentCommandService,
         var resources = result.Select(DocumentResourceFromEntityAssembler.ToResourceFromEntity);
         
         return Ok(resources);
+    }
+    
+    [HttpGet("{id:int}")]
+    [SwaggerOperation(
+        Summary = "Get a document by ID",
+        Description = "Get the document with the specified ID",
+        OperationId = "GetDocumentById")]
+    [SwaggerResponse(
+        StatusCodes.Status200OK, "The document was found", typeof(DocumentResource))]
+    public async Task<ActionResult> GetDocumentById(int id)
+    {
+        var getDocumentByIdQuery = new GetDocumentByIdQuery(id);
+        
+        var result = await documentQueryService.Handle(getDocumentByIdQuery);
+        
+        if (result is null)
+            return NotFound("The document was not found");
+        
+        return Ok(DocumentResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
     
     [HttpDelete("{id}")]

@@ -43,4 +43,15 @@ public interface IDocumentQueryService
     /// The <see cref="Document"/> object.
     /// </returns>
     Task<IEnumerable<Document>> Handle(GetDocumentByRateTypeQuery query);
+    
+    /// <summary>
+    /// This method is used to get a document by its id.
+    /// </summary>
+    /// <param name="query">
+    /// The <see cref="GetDocumentByIdQuery"/> query.
+    /// </param>
+    /// <returns>
+    /// The <see cref="Document"/> object.
+    /// </returns>
+    Task<Document?> Handle(GetDocumentByIdQuery query);
 }

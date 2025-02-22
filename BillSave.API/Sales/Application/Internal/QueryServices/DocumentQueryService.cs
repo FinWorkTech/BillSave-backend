@@ -32,4 +32,10 @@ public class DocumentQueryService(IDocumentRepository documentRepository) : IDoc
     {
         return await documentRepository.FinByRateTypeAsync(query.RateType);
     }
+    
+    /// <inheritdoc />
+    public async Task<Document?> Handle(GetDocumentByIdQuery query)
+    {
+        return await documentRepository.FindByIdAsync(query.Id);
+    }
 }
