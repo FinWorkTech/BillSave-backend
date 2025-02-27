@@ -1,5 +1,3 @@
-using BillSave.API.Shared.Domain.Model;
-
 namespace BillSave.API.Sales.Domain.Model.Queries;
 
 /// Get Document by date range query.
@@ -12,4 +10,4 @@ namespace BillSave.API.Sales.Domain.Model.Queries;
 /// <param name="EndDate">
 /// The end date of the range.
 /// </param>
-public record GetDocumentByDateRangeQuery(SimpleDate StartDate, SimpleDate EndDate);
+public record GetDocumentByDateRangeQuery(DateTime StartDate, DateTime EndDate);

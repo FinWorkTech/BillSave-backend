@@ -18,7 +18,7 @@ public class DocumentQueryService(IDocumentRepository documentRepository) : IDoc
     /// <inheritdoc />
     public async Task<IEnumerable<Document>> Handle(GetDocumentByDateRangeQuery query)
     {
-        return await documentRepository.FindByDateRangeAsync(query.StartDate.Value, query.EndDate.Value);
+        return await documentRepository.FindByDateRangeAsync(query.StartDate, query.EndDate);
     }
 
     /// <inheritdoc />

@@ -76,6 +76,25 @@ public class DocumentsController(IDocumentCommandService documentCommandService,
         return Ok(resources);
     }
     
+   
+    [HttpGet("daterange")]
+    [SwaggerOperation(
+        Summary = "Get documents by date range",
+        Description = "Get all documents within the specified date range",
+        OperationId = "GetDocumentsByDateRange")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The documents were found", typeof(IEnumerable<DocumentResource>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "No documents found for the given date range")]
+    public async Task<ActionResult> GetDocumentsByDateRange(DateTime startDate, DateTime endDate)
+    {
+        var getDocumentsByDateRangeQuery = new GetDocumentByDateRangeQuery(startDate, endDate);
+        
+        var result = await documentQueryService.Handle(getDocumentsByDateRangeQuery);
+        
+        var resources = result.Select(DocumentResourceFromEntityAssembler.ToResourceFromEntity);
+        
+        return Ok(resources);
+    }
+    
     [HttpGet("{id:int}")]
     [SwaggerOperation(
         Summary = "Get a document by ID",
