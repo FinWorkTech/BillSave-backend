@@ -19,6 +19,17 @@ public interface IPackRepository : IBaseRepository<Pack>
     /// The Packs found.
     /// </returns>
     Task<IEnumerable<Pack>> FindByUserIdAsync(int userId);
+
+    /// <summary>
+    /// Find Packs by Name.
+    /// </summary>
+    /// <param name="name">
+    ///     The name.
+    /// </param>
+    /// <returns>
+    /// The Packs found.
+    /// </returns>
+    Task<Pack?> FindByNameAsync(string name);
     
     /// <summary>
     /// Find Packs by Name and User Id.

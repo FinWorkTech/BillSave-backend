@@ -76,6 +76,28 @@ public class PacksController(IPackCommandService packCommandService, IPackQueryS
         return Ok(resources);
     }
     
+    [HttpGet("{name}")]
+    [SwaggerOperation(
+        Summary = "Get portfolio by name",
+        Description = "Get the portfolio with the specified name",
+        OperationId = "GetPortfolioByName")]
+    [SwaggerResponse(StatusCodes.Status200OK,
+        "The portfolio was found", typeof(IEnumerable<PackResource>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The portfolio was not found")]
+    public async Task<ActionResult> GetPortfolioByName(string name)
+    {
+        var getPackByNameQuery = new GetPackByNameQuery(name);
+        
+        var result = await packQueryService.Handle(getPackByNameQuery);
+        
+        if (result is null)
+            return NotFound("The portfolio was not found");
+
+        var resources = PackResourceFromEntityAssembler.ToResourceFromEntity(result);
+        
+        return Ok(resources);
+    }
+    
     [HttpGet("summary")]
     [SwaggerOperation(
         Summary = "Get portfolio summary by UserId",

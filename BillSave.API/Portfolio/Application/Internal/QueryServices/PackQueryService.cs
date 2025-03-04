@@ -25,6 +25,12 @@ public class PackQueryService(IPackRepository packRepository) : IPackQueryServic
     {
         return await packRepository.FindByDateRangeAsync(query.StartDate, query.EndDate);
     }
+    
+    // <inheritdoc />
+    public async Task<Pack?> Handle(GetPackByNameQuery query)
+    {
+        return await packRepository.FindByNameAsync(query.Name);
+    }
 
     public async Task<PackSummary> Handle(GetPackSummaryByUserIdQuery query)
     {

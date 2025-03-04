@@ -21,6 +21,11 @@ public class PackRepository(AppDbContext context) : BaseRepository<Pack>(context
        return await Context.Set<Pack>().Where(p => p.UserId == userId).ToListAsync();
     }
     
+    // <inheritdoc />
+    public async Task<Pack?> FindByNameAsync(string name)
+    {
+        return await Context.Set<Pack>().FirstOrDefaultAsync(p => p.Name == name);
+    }
     /// <inheritdoc/>
     public Task<bool> ExistsByNameAndUserIdAsync(string name, int userId)
     {
