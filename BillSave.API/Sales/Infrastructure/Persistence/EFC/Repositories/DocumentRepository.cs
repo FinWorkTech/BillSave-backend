@@ -21,7 +21,14 @@ public class DocumentRepository(AppDbContext context) : BaseRepository<Document>
         return await Context.Set<Document>()
             .Where(d => d.PortfolioId == portfolioId).ToListAsync();
     }
-    
+
+    public async Task<IEnumerable<Document>> FindByPortfolioIdAndDateRangeAsync(int portfolioId, DateTime startDate, DateTime endDate)
+    {
+        return await Context.Set<Document>()
+            .Where(d => d.PortfolioId == portfolioId && 
+                        d.IssueDate.Value >= startDate && d.IssueDate.Value <= endDate).ToListAsync();
+    }
+
     /// <inheritdoc />
     public async Task<IEnumerable<Document>> FindByDateRangeAsync(DateTime startDate, DateTime endDate)
     {

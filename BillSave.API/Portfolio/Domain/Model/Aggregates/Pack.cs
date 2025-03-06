@@ -1,6 +1,6 @@
 using BillSave.API.Portfolio.Domain.Model.Commands;
 using BillSave.API.Portfolio.Domain.Model.ValueObjects;
-using BillSave.API.Shared.Domain.Model;
+using BillSave.API.Shared.Domain.Model.ValueObjects;
 
 namespace BillSave.API.Portfolio.Domain.Model.Aggregates;
 

@@ -95,6 +95,24 @@ public class DocumentsController(IDocumentCommandService documentCommandService,
         return Ok(resources);
     }
     
+    [HttpGet("portfolio/{portfolioId:int}/daterange")]
+    [SwaggerOperation(
+          Summary = "Get documents by Portfolio Id and date range",
+          Description = "Get all documents associated with the specified Portfolio Id within the specified date range",
+          OperationId = "GetDocumentsByPortfolioIdAndDateRange")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The documents were found", typeof(IEnumerable<DocumentResource>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "No documents found for the given Portfolio Id and date range")]
+    public async Task<ActionResult> GetDocumentByPortfolioIdAndDateRange(int portfolioId, DateTime startDate, DateTime endDate)
+    { 
+        var getDocumentsByPortfolioIdAndDateRangeQuery = new GetDocumentByPortfolioIdAndDateRangeQuery(portfolioId, startDate, endDate);
+      
+        var result = await documentQueryService.Handle(getDocumentsByPortfolioIdAndDateRangeQuery);
+
+        var resources = result.Select(DocumentResourceFromEntityAssembler.ToResourceFromEntity);
+        
+        return Ok(resources);
+      }
+    
     [HttpGet("{id:int}")]
     [SwaggerOperation(
         Summary = "Get a document by ID",

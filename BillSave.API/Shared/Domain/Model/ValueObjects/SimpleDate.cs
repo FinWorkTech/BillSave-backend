@@ -1,4 +1,4 @@
-namespace BillSave.API.Shared.Domain.Model;
+namespace BillSave.API.Shared.Domain.Model.ValueObjects;
 
 /// Simple date value object
 /// <summary>

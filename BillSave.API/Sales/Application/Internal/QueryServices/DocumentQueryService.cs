@@ -1,4 +1,3 @@
-using System.Collections;
 using BillSave.API.Sales.Domain.Model.Aggregates;
 using BillSave.API.Sales.Domain.Model.Queries;
 using BillSave.API.Sales.Domain.Repositories;
@@ -37,5 +36,11 @@ public class DocumentQueryService(IDocumentRepository documentRepository) : IDoc
     public async Task<Document?> Handle(GetDocumentByIdQuery query)
     {
         return await documentRepository.FindByIdAsync(query.Id);
+    }
+
+    public async Task<IEnumerable<Document>> Handle(GetDocumentByPortfolioIdAndDateRangeQuery query)
+    {
+        return await documentRepository.
+            FindByPortfolioIdAndDateRangeAsync(query.PortfolioId, query.StartDate, query.EndDate);
     }
 }

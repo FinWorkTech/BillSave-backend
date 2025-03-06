@@ -23,6 +23,23 @@ public interface IDocumentRepository : IBaseRepository<Document>
     Task<IEnumerable<Document>> FindByPortfolioIdAsync(int portfolioId);
     
     /// <summary>
+    /// Find By Portfolio Id And Date Range. 
+    /// </summary>
+    /// <param name="portfolioId">
+    /// The portfolio id.
+    /// </param>
+    /// <param name="startDate">
+    /// The start date.
+    /// </param>
+    /// <param name="endDate">
+    /// The end date.
+    /// </param>
+    /// <returns>
+    /// The document found.
+    /// </returns>
+    Task<IEnumerable<Document>> FindByPortfolioIdAndDateRangeAsync(int portfolioId, DateTime startDate, DateTime endDate);
+    
+    /// <summary>
     /// Find Document by Date Range.
     /// </summary>
     /// <param name="startDate">
