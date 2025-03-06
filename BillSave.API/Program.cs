@@ -35,10 +35,12 @@ using BillSave.API.Sales.Interfaces.ACL;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using BillSave.API.Shared.Domain.Repositories;
+using BillSave.API.Shared.Domain.Services;
 using BillSave.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using BillSave.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using BillSave.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using BillSave.API.Shared.Infrastructure.Pipeline.Middleware.Components;
+using BillSave.API.Shared.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -170,6 +172,9 @@ builder.Services.AddScoped<ExternalProfileService>();
 builder.Services.AddExceptionHandler<CommonExceptionHandler>();
 builder.Services.AddExceptionHandler<CommonExceptionHandler>();
 builder.Services.AddProblemDetails();
+
+// External Services
+builder.Services.AddHttpClient<ISunatService, SunatService>();
 
 // Registrar MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
