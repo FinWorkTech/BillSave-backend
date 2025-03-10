@@ -80,7 +80,12 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Document>().HasKey(d => d.Id);
       builder.Entity<Document>().Property(d => d.Id).IsRequired().ValueGeneratedOnAdd();
       builder.Entity<Document>().Property(d => d.PortfolioId).IsRequired();
-      builder.Entity<Document>().Property(d => d.Code).IsRequired();
+      builder.Entity<Document>().OwnsOne(d => d.Code, 
+         e =>
+         {
+            e.WithOwner().HasForeignKey("Id");
+            e.Property(p => p.Value).HasColumnName("Code");
+         });
       builder.Entity<Document>().OwnsOne(d => d.IssueDate,
          e =>
          {

@@ -10,7 +10,7 @@ namespace BillSave.API.Sales.Domain.Model.Aggregates;
 public partial class Document
 {
     public int Id { get; }
-    public string Code { get; private set; }
+    public DocumentCode Code { get; private set; }
     
     public SimpleDate IssueDate { get; private set; }
     public SimpleDate DueDate { get; private set; }
@@ -23,7 +23,7 @@ public partial class Document
 
     public Document()
     {
-        Code = string.Empty;
+        Code = new DocumentCode();
         
         IssueDate = new SimpleDate(DateTime.Now);
         DueDate = new SimpleDate(DateTime.Now);
@@ -38,7 +38,7 @@ public partial class Document
     public Document(string code, SimpleDate issueDate, 
         SimpleDate dueDate, Rate rate, Currency currency, decimal nominalAmount, int portfolioId)
     {
-        Code = code;
+        Code = new DocumentCode(code);
         IssueDate = issueDate;
         DueDate = dueDate;
         
@@ -54,7 +54,7 @@ public partial class Document
     /// </summary>
     public Document(CreateDocumentCommand command)
     { 
-        Code = command.Code;
+        Code = new DocumentCode(command.Code);
         
         IssueDate = new SimpleDate(command.IssueDate);
         DueDate = new SimpleDate(command.DueDate);
@@ -74,13 +74,13 @@ public partial class Document
     /// </param>
     public void UpdateDocument(UpdateDocumentCommand command)
     {
-        Code = command.Code;
+        Code = new DocumentCode(command.Code);
         
         DueDate = new SimpleDate(command.DueDate);
         IssueDate = new SimpleDate(command.IssueDate);
         
+        NominalAmount = command.NominalAmount;
         Currency = new Currency(command.Currency);
         Rate = new Rate(command.RateValue, command.RateType);
-        NominalAmount = command.NominalAmount;
     }
 }

@@ -24,7 +24,7 @@ public class DocumentResourceFromEntityAssembler
         return new DocumentResource(
             entity.Id,
             entity.PortfolioId,
-            entity.Code,
+            entity.Code.Value,
             entity.IssueDate.ToString(),
             entity.DueDate.ToString(),
             entity.Rate.Type,
