@@ -47,6 +47,8 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
             
             await mediator.Publish(new DocumentChangedEvent(command.PortfolioId));
             await unitOfWork.CompleteAsync();
+
+            await mediator.Publish(new EffectiveAnnualCostRateCalculatedEvent(document.Id));
         }
         catch (Exception e)
         {
@@ -75,6 +77,8 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
             
             await mediator.Publish(new DocumentChangedEvent(document.PortfolioId));
             await unitOfWork.CompleteAsync();
+            
+            await mediator.Publish(new EffectiveAnnualCostRateCalculatedEvent(document.Id));
         }
         catch (System.Exception e)
         {
@@ -83,7 +87,29 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
     
         return document;
     }
-    
+
+    public async Task<Document?> Handle(UpdateEffectiveAnnualCostRateCommand command)
+    {
+        var document = await documentRepository.FindByIdAsync(command.DocumentId);
+        
+        if (document == null)
+            throw new Exception("Document not found.");
+        
+        document.UpdateEffectiveAnnualCostRate(command.EffectiveAnnualCostRate);
+
+        try
+        {
+            documentRepository.Update(document);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            throw new Exception("An error occurred while updating the document.", e);
+        }
+
+        return document;
+    }
+
     /// <inheritdoc/>
     public async Task<Document?> Handle(DeleteDocumentCommand command)
     {

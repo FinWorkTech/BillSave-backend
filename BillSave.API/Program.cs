@@ -179,7 +179,8 @@ builder.Services.AddHttpClient<ISunatService, SunatService>();
 // Registrar MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(Program).Assembly, 
-    typeof(DocumentChangedEventHandler).Assembly
+    typeof(DocumentChangedEventHandler).Assembly,
+    typeof(CalculateEffectiveAnnualCostRateEventHandler).Assembly
 ));
 
 
