@@ -1,6 +1,7 @@
-using BillSave.API.IAM.Application.CommandServices;
-using BillSave.API.IAM.Application.OutboundServices;
-using BillSave.API.IAM.Application.QueryServices;
+using BillSave.API.IAM.Application.ACL.InboundServices;
+using BillSave.API.IAM.Application.ACL.OutboundServices;
+using BillSave.API.IAM.Application.Internal.CommandServices;
+using BillSave.API.IAM.Application.Internal.QueryServices;
 using BillSave.API.IAM.Domain.Repositories;
 using BillSave.API.IAM.Domain.Services;
 using BillSave.API.IAM.Infrastructure.Hashing.BCrypt.Services;
@@ -10,26 +11,28 @@ using BillSave.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 using BillSave.API.IAM.Infrastructure.Tokens.JWT.Services;
 using BillSave.API.Portfolio.Application.ACL.InboundServices;
 using BillSave.API.Portfolio.Application.ACL.OutboundServices;
+using BillSave.API.Portfolio.Application.Contracts;
 using BillSave.API.Portfolio.Application.Internal.CommandServices;
 using BillSave.API.Portfolio.Application.Internal.QueryServices;
 using BillSave.API.Portfolio.Domain.Repositories;
-using BillSave.API.Portfolio.Domain.Services;
 using BillSave.API.Portfolio.Infrastructure.Persistence.EFC.Repositories;
 using BillSave.API.Portfolio.Interfaces.ACL;
 using BillSave.API.Profiles.Application.ACL;
+using BillSave.API.Profiles.Application.ACL.InboundServices;
+using BillSave.API.Profiles.Application.Contracts;
 using BillSave.API.Profiles.Application.Internal.CommandServices;
 using BillSave.API.Profiles.Application.Internal.QueryServices;
 using BillSave.API.Profiles.Domain.Repositories;
-using BillSave.API.Profiles.Domain.Services;
 using BillSave.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
 using BillSave.API.Profiles.Interfaces.ACL;
 using BillSave.API.Sales.Application.ACL.InboundServices;
 using BillSave.API.Sales.Application.ACL.OutboundServices;
+using BillSave.API.Sales.Application.Contracts;
 using BillSave.API.Sales.Application.Internal.CommandServices;
-using BillSave.API.Sales.Application.Internal.EventHandlers;
 using BillSave.API.Sales.Application.Internal.QueryServices;
 using BillSave.API.Sales.Domain.Contracts.Repositories;
 using BillSave.API.Sales.Domain.Services;
+using BillSave.API.Sales.Domain.Services.Contracts;
 using BillSave.API.Sales.Infrastructure.Persistence.EFC.Repositories;
 using BillSave.API.Sales.Interfaces.ACL;
 using Microsoft.OpenApi.Models;
@@ -140,11 +143,12 @@ builder.Services.AddScoped<IPackQueryService, PackQueryService>();
 builder.Services.AddScoped<IPortfoliosContextFacade, PortfoliosContextFacade>();
 
 // Sales Bounded Context Dependency Injection Configuration
-builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
-builder.Services.AddScoped<IDocumentCommandService, DocumentCommandService>();
-builder.Services.AddScoped<IDocumentQueryService, DocumentQueryService>();
-builder.Services.AddScoped<ISalesContextFacade, SalesContextFacade>();
 builder.Services.AddScoped<ExternalPortfolioService>();
+builder.Services.AddScoped<ISalesContextFacade, SalesContextFacade>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+builder.Services.AddScoped<IDocumentQueryService, DocumentQueryService>();
+builder.Services.AddScoped<IDocumentCommandService, DocumentCommandService>();
+builder.Services.AddScoped<IEacrCalculationService, EacrCalculationService>();
 
 // Profiles Bounded Context Dependency Injection Configuration
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
@@ -178,9 +182,7 @@ builder.Services.AddHttpClient<ISunatService, SunatService>();
 
 // Registrar MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-    typeof(Program).Assembly, 
-    typeof(DocumentChangedEventHandler).Assembly,
-    typeof(CalculateEffectiveAnnualCostRateEventHandler).Assembly
+    typeof(Program).Assembly
 ));
 
 

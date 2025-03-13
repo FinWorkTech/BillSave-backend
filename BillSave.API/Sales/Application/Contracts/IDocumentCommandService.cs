@@ -1,7 +1,7 @@
 using BillSave.API.Sales.Domain.Model.Aggregates;
 using BillSave.API.Sales.Domain.Model.Commands;
 
-namespace BillSave.API.Sales.Domain.Services;
+namespace BillSave.API.Sales.Application.Contracts;
 
 /// Document Command Service Interface
 /// <summary>

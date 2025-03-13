@@ -1,11 +1,11 @@
 using MediatR;
-using BillSave.API.Sales.Domain.Model.Events;
 using BillSave.API.Shared.Domain.Repositories;
 using BillSave.API.Sales.Domain.Model.Commands;
 using BillSave.API.Sales.Domain.Model.Aggregates;
 using BillSave.API.Sales.Domain.Contracts.Repositories;
 using BillSave.API.Sales.Application.ACL.OutboundServices;
-using BillSave.API.Sales.Domain.Services;
+using BillSave.API.Sales.Application.Contracts;
+using BillSave.API.Sales.Domain.Services.Contracts;
 
 namespace BillSave.API.Sales.Application.Internal.CommandServices;
 
@@ -19,7 +19,10 @@ namespace BillSave.API.Sales.Application.Internal.CommandServices;
 /// <param name="unitOfWork">
 /// The <see cref="IUnitOfWork"/> unit of work.
 /// </param>
-public class DocumentCommandService(IDocumentRepository documentRepository, IUnitOfWork unitOfWork, 
+public class DocumentCommandService(
+    IUnitOfWork unitOfWork, 
+    IDocumentRepository documentRepository,
+    IEacrCalculationService effectiveAnnualCostRateCalculationService,
     ExternalPortfolioService externalPortfolioService, IMediator mediator) : IDocumentCommandService
 {
     /// <inheritdoc/>
@@ -45,10 +48,7 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
             await documentRepository.AddAsync(document);
             await unitOfWork.CompleteAsync();
             
-            await mediator.Publish(new DocumentChangedEvent(command.PortfolioId));
-            await unitOfWork.CompleteAsync();
-
-            await mediator.Publish(new EffectiveAnnualCostRateCalculatedEvent(document.Id));
+            await UpdatePortfolioEffectiveAnnualCostRate(document.PortfolioId);
         }
         catch (Exception e)
         {
@@ -75,10 +75,7 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
             documentRepository.Update(document);
             await unitOfWork.CompleteAsync();
             
-            await mediator.Publish(new DocumentChangedEvent(document.PortfolioId));
-            await unitOfWork.CompleteAsync();
-            
-            await mediator.Publish(new EffectiveAnnualCostRateCalculatedEvent(document.Id));
+            await UpdatePortfolioEffectiveAnnualCostRate(document.PortfolioId);
         }
         catch (System.Exception e)
         {
@@ -90,24 +87,28 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
 
     public async Task<Document?> Handle(UpdateEffectiveAnnualCostRateCommand command)
     {
-        var document = await documentRepository.FindByIdAsync(command.DocumentId);
+        var documents = await documentRepository.FindByPortfolioIdAsync(command.PortfolioId);
+
+        var enumerable = documents.ToList();
         
-        if (document == null)
-            throw new Exception("Document not found.");
-        
-        document.UpdateEffectiveAnnualCostRate(command.EffectiveAnnualCostRate);
+        if (enumerable.Count == 0)
+            throw new Exception("No documents found for the portfolio.");
+
+        var effectiveAnnualCostRate =
+            await effectiveAnnualCostRateCalculationService.CalculateEffectiveAnnualCostRate(enumerable);
 
         try
         {
-            documentRepository.Update(document);
             await unitOfWork.CompleteAsync();
+            await externalPortfolioService
+                .UpdateEffectiveAnnualCostRateAsync(command.PortfolioId, effectiveAnnualCostRate);
+
+            return enumerable.FirstOrDefault();
         }
         catch (Exception e)
         {
-            throw new Exception("An error occurred while updating the document.", e);
+            throw new Exception("An error occurred while updating the effective annual cost rate.", e);
         }
-
-        return document;
     }
 
     /// <inheritdoc/>
@@ -126,8 +127,7 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
             documentRepository.Remove(document);
             await unitOfWork.CompleteAsync();
             
-            await mediator.Publish(new DocumentChangedEvent(portfolioId));
-            await unitOfWork.CompleteAsync();   
+            await UpdatePortfolioEffectiveAnnualCostRate(portfolioId);
         }
         catch (Exception e)
         {
@@ -135,5 +135,33 @@ public class DocumentCommandService(IDocumentRepository documentRepository, IUni
         }
         
         return document;
+    }
+    
+    /// <summary>
+    /// Updates the Effective Annual Cost Rate (EACR) for a portfolio.
+    /// </summary>
+    private async Task UpdatePortfolioEffectiveAnnualCostRate(int portfolioId)
+    {
+        var documents = await documentRepository.FindByPortfolioIdAsync(portfolioId);
+        var documentList = documents.ToList();
+
+        if (documentList.Count == 0)
+        {
+            await externalPortfolioService.UpdateEffectiveAnnualCostRateAsync(portfolioId, 0);
+            return;
+        }
+
+        var effectiveAnnualCostRate = await effectiveAnnualCostRateCalculationService
+            .CalculateEffectiveAnnualCostRate(documentList);
+
+        try
+        {
+            await externalPortfolioService.UpdateEffectiveAnnualCostRateAsync(portfolioId, effectiveAnnualCostRate);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            throw new Exception("An error occurred while updating the effective annual cost rate.", e);
+        }
     }
 }

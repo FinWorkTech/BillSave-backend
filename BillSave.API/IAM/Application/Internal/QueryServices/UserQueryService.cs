@@ -1,9 +1,9 @@
-using BillSave.API.IAM.Domain.Model.Aggregates;
-using BillSave.API.IAM.Domain.Model.Queries;
-using BillSave.API.IAM.Domain.Repositories;
 using BillSave.API.IAM.Domain.Services;
+using BillSave.API.IAM.Domain.Repositories;
+using BillSave.API.IAM.Domain.Model.Queries;
+using BillSave.API.IAM.Domain.Model.Aggregates;
 
-namespace BillSave.API.IAM.Application.QueryServices;
+namespace BillSave.API.IAM.Application.Internal.QueryServices;
 
 /// <summary>
 /// User query service. 

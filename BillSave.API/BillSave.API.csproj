@@ -32,4 +32,9 @@
         <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.2.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="IAM\Application\ACL\" />
+      <Folder Include="IAM\Application\Internal\" />
+    </ItemGroup>
+
 </Project>

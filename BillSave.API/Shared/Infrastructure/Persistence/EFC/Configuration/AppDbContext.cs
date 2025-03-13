@@ -81,9 +81,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Document>().Property(d => d.Id).IsRequired().ValueGeneratedOnAdd();
       builder.Entity<Document>().Property(d => d.PortfolioId).IsRequired();
       
-      builder.Entity<Document>().Property(d => d.EffectiveAnnualCostRate)
-         .IsRequired().HasColumnType("decimal(18,6)");
-      
       builder.Entity<Document>().OwnsOne(d => d.Code, 
          e =>
          {

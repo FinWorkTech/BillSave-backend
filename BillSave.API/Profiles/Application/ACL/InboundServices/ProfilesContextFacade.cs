@@ -1,8 +1,8 @@
-using BillSave.API.Profiles.Domain.Model.Commands;
-using BillSave.API.Profiles.Domain.Services;
 using BillSave.API.Profiles.Interfaces.ACL;
+using BillSave.API.Profiles.Application.Contracts;
+using BillSave.API.Profiles.Domain.Model.Commands;
 
-namespace BillSave.API.Profiles.Application.ACL;
+namespace BillSave.API.Profiles.Application.ACL.InboundServices;
 
 /// <summary>
 /// Profiles context facade.

@@ -1,7 +1,7 @@
+using BillSave.API.Sales.Application.Contracts;
 using BillSave.API.Sales.Domain.Model.Queries;
 using BillSave.API.Sales.Domain.Model.Aggregates;
 using BillSave.API.Sales.Domain.Contracts.Repositories;
-using BillSave.API.Sales.Domain.Services;
 
 namespace BillSave.API.Sales.Application.Internal.QueryServices;
 

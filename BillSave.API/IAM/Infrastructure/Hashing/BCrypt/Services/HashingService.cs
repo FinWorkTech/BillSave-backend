@@ -1,4 +1,4 @@
-using BillSave.API.IAM.Application.OutboundServices;
+using BillSave.API.IAM.Application.ACL.InboundServices;
 using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace BillSave.API.IAM.Infrastructure.Hashing.BCrypt.Services;

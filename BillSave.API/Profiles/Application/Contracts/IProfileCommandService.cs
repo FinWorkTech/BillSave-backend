@@ -1,7 +1,7 @@
 using BillSave.API.Profiles.Domain.Model.Aggregates;
 using BillSave.API.Profiles.Domain.Model.Commands;
 
-namespace BillSave.API.Profiles.Domain.Services;
+namespace BillSave.API.Profiles.Application.Contracts;
 
 /// <summary>
 /// Profile command service interface.

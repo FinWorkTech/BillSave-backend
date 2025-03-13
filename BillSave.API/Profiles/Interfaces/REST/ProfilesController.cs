@@ -1,6 +1,6 @@
 using System.Net.Mime;
+using BillSave.API.Profiles.Application.Contracts;
 using BillSave.API.Profiles.Domain.Model.Queries;
-using BillSave.API.Profiles.Domain.Services;
 using BillSave.API.Profiles.Interfaces.REST.Resources;
 using BillSave.API.Profiles.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;

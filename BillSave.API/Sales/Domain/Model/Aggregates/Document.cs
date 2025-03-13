@@ -18,7 +18,6 @@ public partial class Document
     public Rate Rate { get; private set; }
     public Currency Currency { get; private set; }
     public decimal NominalAmount { get; private set; }
-    public decimal EffectiveAnnualCostRate { get; private set; }
     
     public int PortfolioId { get; }
 
@@ -34,11 +33,10 @@ public partial class Document
 
         PortfolioId = 0;
         NominalAmount = 0;
-        EffectiveAnnualCostRate = 0;
     }
     
     public Document(string code, SimpleDate issueDate, 
-        SimpleDate dueDate, Rate rate, Currency currency, decimal nominalAmount, decimal effectiveAnnualCostRate ,int portfolioId)
+        SimpleDate dueDate, Rate rate, Currency currency, decimal nominalAmount, int portfolioId)
     {
         Code = new DocumentCode(code);
         IssueDate = issueDate;
@@ -47,7 +45,6 @@ public partial class Document
         Rate = rate;
         Currency = currency;
         NominalAmount = nominalAmount;
-        EffectiveAnnualCostRate = effectiveAnnualCostRate;
         
         PortfolioId = portfolioId;
     }
@@ -67,15 +64,6 @@ public partial class Document
         NominalAmount = command.NominalAmount;
         
         PortfolioId = command.PortfolioId;
-    }
-    
-    /// <summary>
-    /// Constructor that initializes a Document from a command.
-    /// </summary>
-    /// <param name="effectiveAnnualCostRate"></param>
-    public void UpdateEffectiveAnnualCostRate(decimal effectiveAnnualCostRate)
-    {
-        EffectiveAnnualCostRate = effectiveAnnualCostRate;
     }
     
     /// <summary>

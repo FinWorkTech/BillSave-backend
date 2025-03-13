@@ -1,6 +1,6 @@
 using BillSave.API.Profiles.Interfaces.ACL;
 
-namespace BillSave.API.IAM.Application.OutboundServices;
+namespace BillSave.API.IAM.Application.ACL.OutboundServices;
 
 /// <summary>
 /// External profile service.

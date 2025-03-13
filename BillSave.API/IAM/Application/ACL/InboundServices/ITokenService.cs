@@ -1,6 +1,6 @@
 using BillSave.API.IAM.Domain.Model.Aggregates;
 
-namespace BillSave.API.IAM.Application.OutboundServices;
+namespace BillSave.API.IAM.Application.ACL.InboundServices;
 
 /// <summary>
 /// Token service interface 

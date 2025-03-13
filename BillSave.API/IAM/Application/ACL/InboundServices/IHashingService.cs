@@ -1,4 +1,4 @@
-namespace BillSave.API.IAM.Application.OutboundServices;
+namespace BillSave.API.IAM.Application.ACL.InboundServices;
 
 /// <summary>
 /// Hashing service interface 

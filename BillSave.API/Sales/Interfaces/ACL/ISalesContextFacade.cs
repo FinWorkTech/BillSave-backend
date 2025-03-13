@@ -19,7 +19,7 @@ public interface ISalesContextFacade
     /// A task representing the asynchronous operation.
     /// </returns>
     Task<IEnumerable<Document>> GetDocumentsByPortfolioIdAsync(int portfolioId);
-    
+
     /// <summary>
     /// This method is used to delete all documents of a portfolio.
     /// </summary>
@@ -30,4 +30,6 @@ public interface ISalesContextFacade
     /// A task representing the asynchronous operation.
     /// </returns>
     Task DeleteDocumentsByPortfolioIdAsync(int portfolioId);
+
+    Task<decimal> GetEffectiveAnnualCostRateForPack(int portfolioId);
 }

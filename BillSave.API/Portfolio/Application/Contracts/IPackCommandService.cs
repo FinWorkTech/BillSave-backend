@@ -1,7 +1,7 @@
 using BillSave.API.Portfolio.Domain.Model.Aggregates;
 using BillSave.API.Portfolio.Domain.Model.Commands;
 
-namespace BillSave.API.Portfolio.Domain.Services;
+namespace BillSave.API.Portfolio.Application.Contracts;
 
 /// <summary>
 /// The service that handles the commands related to the packs.
