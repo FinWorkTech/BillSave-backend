@@ -3,9 +3,9 @@ using BillSave.API.Sales.Domain.Model.Events;
 using BillSave.API.Shared.Domain.Repositories;
 using BillSave.API.Sales.Domain.Model.Commands;
 using BillSave.API.Sales.Domain.Model.Aggregates;
-using BillSave.API.Sales.Domain.Contracts.Services;
 using BillSave.API.Sales.Domain.Contracts.Repositories;
 using BillSave.API.Sales.Application.ACL.OutboundServices;
+using BillSave.API.Sales.Domain.Services;
 
 namespace BillSave.API.Sales.Application.Internal.CommandServices;
 

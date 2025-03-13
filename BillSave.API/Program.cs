@@ -29,7 +29,7 @@ using BillSave.API.Sales.Application.Internal.CommandServices;
 using BillSave.API.Sales.Application.Internal.EventHandlers;
 using BillSave.API.Sales.Application.Internal.QueryServices;
 using BillSave.API.Sales.Domain.Contracts.Repositories;
-using BillSave.API.Sales.Domain.Contracts.Services;
+using BillSave.API.Sales.Domain.Services;
 using BillSave.API.Sales.Infrastructure.Persistence.EFC.Repositories;
 using BillSave.API.Sales.Interfaces.ACL;
 using Microsoft.OpenApi.Models;

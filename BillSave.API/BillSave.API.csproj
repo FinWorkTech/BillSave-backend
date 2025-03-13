@@ -32,8 +32,4 @@
         <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.2.0"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Sales\Domain\Services\" />
-    </ItemGroup>
-
 </Project>
