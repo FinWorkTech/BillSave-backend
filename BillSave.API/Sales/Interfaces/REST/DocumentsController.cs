@@ -1,11 +1,11 @@
 using System.Net.Mime;
-using BillSave.API.Sales.Domain.Model.Commands;
-using BillSave.API.Sales.Domain.Model.Queries;
-using BillSave.API.Sales.Domain.Services;
-using BillSave.API.Sales.Interfaces.REST.Resources;
-using BillSave.API.Sales.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using BillSave.API.Sales.Domain.Model.Queries;
+using BillSave.API.Sales.Domain.Model.Commands;
+using BillSave.API.Sales.Domain.Contracts.Services;
+using BillSave.API.Sales.Interfaces.REST.Resources;
+using BillSave.API.Sales.Interfaces.REST.Transform;
 
 namespace BillSave.API.Sales.Interfaces.REST;
 
