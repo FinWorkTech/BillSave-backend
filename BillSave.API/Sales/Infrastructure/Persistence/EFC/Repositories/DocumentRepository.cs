@@ -1,8 +1,8 @@
+using BillSave.API.Sales.Domain.Contracts.Repositories;
 using Microsoft.EntityFrameworkCore;
-using BillSave.API.Sales.Domain.Repositories;
 using BillSave.API.Sales.Domain.Model.Aggregates;
-using BillSave.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using BillSave.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using BillSave.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
 namespace BillSave.API.Sales.Infrastructure.Persistence.EFC.Repositories;
 
@@ -13,7 +13,7 @@ namespace BillSave.API.Sales.Infrastructure.Persistence.EFC.Repositories;
 /// <param name="context">
 /// The <see cref="AppDbContext"/> context
 /// </param>
-public class DocumentRepository(AppDbContext context) : BaseRepository<Document>(context),IDocumentRepository
+public class DocumentRepository(AppDbContext context) : BaseRepository<Document>(context), IDocumentRepository
 {
     /// <inheritdoc />
     public async Task<IEnumerable<Document>> FindByPortfolioIdAsync(int portfolioId)

@@ -2,9 +2,7 @@ using MediatR;
 using BillSave.API.Sales.Domain.Model.Events;
 using BillSave.API.Sales.Domain.Model.Queries;
 using BillSave.API.Sales.Domain.Model.Commands;
-using BillSave.API.Sales.Application.Internal.QueryServices;
-using BillSave.API.Sales.Application.Internal.CommandServices;
-using BillSave.API.Sales.Domain.Services;
+using BillSave.API.Sales.Domain.Contracts.Services;
 
 namespace BillSave.API.Sales.Application.Internal.EventHandlers;
 
@@ -37,12 +35,10 @@ public class CalculateEffectiveAnnualCostRateEventHandler
                 document.Rate.Value,
                 document.NominalAmount
             );
-        
-            document?.UpdateEffectiveAnnualCostRate(calculatedEffectiveAnnualCostRate);
             
             var updateDocumentCommand = new UpdateEffectiveAnnualCostRateCommand(
                 document!.Id,
-                document.EffectiveAnnualCostRate
+                calculatedEffectiveAnnualCostRate
             );
 
             await documentCommandService.Handle(updateDocumentCommand);
