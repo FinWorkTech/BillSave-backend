@@ -1,5 +1,6 @@
 using BillSave.API.Portfolio.Interfaces.ACL;
-using BillSave.API.Portfolio.Domain.Repositories;
+using BillSave.API.Portfolio.Application.Contracts;
+using BillSave.API.Portfolio.Domain.Model.Commands;
 
 namespace BillSave.API.Portfolio.Application.ACL.InboundServices;
 
@@ -7,10 +8,11 @@ namespace BillSave.API.Portfolio.Application.ACL.InboundServices;
 /// <summary>
 /// The <see cref="IPortfoliosContextFacade"/> context facade.
 /// </summary>
-/// <param name="packRepository">
-/// The <see cref="IPackRepository"/> repository.
+/// <param name="packCommandService">
+/// The <see cref="IPackCommandService"/> pack command service.
 /// </param>
-public class PortfoliosContextFacade(IPackRepository packRepository) : IPortfoliosContextFacade
+public class PortfoliosContextFacade(IPackCommandService packCommandService) 
+    : IPortfoliosContextFacade
 {
     /// Increment total documents.
     /// <summary>
@@ -21,20 +23,8 @@ public class PortfoliosContextFacade(IPackRepository packRepository) : IPortfoli
     /// </param>
     public async Task IncrementTotalDocumentsAsync(int portfolioId)
     {
-        var pack = await packRepository.FindByIdAsync(portfolioId);
-        
-        if (pack == null)
-            throw new Exception("Portfolio not found");
-
-        try
-        {
-            pack.UpdateTotalDocuments(pack.TotalDocuments + 1);
-            packRepository.Update(pack);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Error updating Portfolio", ex);
-        }
+        var command = new UpdateQuantityOfDocumentsCommand(portfolioId, "increment");
+        await packCommandService.Handle(command);
     }
     
     /// Decrement total documents.
@@ -46,23 +36,10 @@ public class PortfoliosContextFacade(IPackRepository packRepository) : IPortfoli
     /// </param>
     public async Task DecrementTotalDocumentsAsync(int portfolioId)
     {
-        var pack = await packRepository.FindByIdAsync(portfolioId);
-        
-        if (pack == null)
-            throw new Exception("Portfolio not found");
-
-        try
-        {
-            pack.UpdateTotalDocuments(pack.TotalDocuments - 1);
-            packRepository.Update(pack);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Error updating Portfolio", ex);
-        }
+        var command = new UpdateQuantityOfDocumentsCommand(portfolioId, "decrement");
+        await packCommandService.Handle(command);
     }
-
-    /// Update effective annual cost rate.
+    
     /// <summary>
     /// Update the effective annual cost rate of a Portfolio.
     /// </summary>
@@ -72,24 +49,9 @@ public class PortfoliosContextFacade(IPackRepository packRepository) : IPortfoli
     /// <param name="effectiveAnnualCostRate">
     /// The effective annual cost rate.
     /// </param>
-    /// <returns>
-    /// A task representing the asynchronous operation.
-    /// </returns>
     public async Task UpdateEffectiveAnnualCostRateAsync(int portfolioId, decimal effectiveAnnualCostRate)
     {
-        var pack = await packRepository.FindByIdAsync(portfolioId);
-        
-        if (pack == null)
-            throw new Exception("Portfolio not found");
-
-        try
-        {
-            pack.UpdateEffectiveAnnualCostRate(effectiveAnnualCostRate);
-            packRepository.Update(pack);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Error updating Portfolio", ex);
-        }
+        var command = new UpdateEffectiveAnnualCostRateCommand(portfolioId, effectiveAnnualCostRate);
+        await packCommandService.Handle(command);
     }
 }
