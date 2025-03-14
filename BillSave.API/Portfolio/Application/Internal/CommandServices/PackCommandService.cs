@@ -85,4 +85,43 @@ public class PackCommandService(IPackRepository packRepository,
         
         return pack;
     }
+    
+    /// <inheritdoc/>
+    public async Task Handle(UpdateQuantityOfDocumentsCommand command)
+    {
+        var pack = await packRepository.FindByIdAsync(command.PackId);
+
+        if (pack == null)
+            throw new KeyNotFoundException("Pack not found");
+
+        switch (command.Operation)
+        {
+            case "increment":
+                pack.UpdateTotalDocuments(pack.TotalDocuments + 1);
+                break;
+            
+            case "decrement":
+                if (pack.TotalDocuments > 0)
+                    pack.UpdateTotalDocuments(pack.TotalDocuments - 1);
+                break;
+            
+            default:
+                throw new ArgumentException("Invalid operation type");
+        }
+            
+        packRepository.Update(pack);
+        await unitOfWork.CompleteAsync(); 
+    }
+
+    /// <inheritdoc/> 
+    public async Task Handle(UpdateEffectiveAnnualCostRateCommand command)
+    {
+        var pack = await packRepository.FindByIdAsync(command.PackId);
+        
+        if (pack == null)
+            throw new KeyNotFoundException("Pack not found");
+        
+        pack.UpdateEffectiveAnnualCostRate(command.EffectiveAnnualCostRate);
+        await unitOfWork.CompleteAsync();
+    }
 }
