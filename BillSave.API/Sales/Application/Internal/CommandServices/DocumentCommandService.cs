@@ -44,11 +44,11 @@ public class DocumentCommandService(
 
         try
         {
-            await externalPortfolioService.IncrementTotalDocumentsAsync(command.PortfolioId);
             await documentRepository.AddAsync(document);
             await unitOfWork.CompleteAsync();
             
             await UpdatePortfolioEffectiveAnnualCostRate(document.PortfolioId);
+            await externalPortfolioService.IncrementTotalDocumentsAsync(command.PortfolioId);
         }
         catch (Exception e)
         {
@@ -65,7 +65,7 @@ public class DocumentCommandService(
         
         if (document == null)
         {
-            throw new System.Exception("Document not found.");
+            throw new Exception("Document not found.");
         }
         
         document.UpdateDocument(command);
@@ -77,40 +77,14 @@ public class DocumentCommandService(
             
             await UpdatePortfolioEffectiveAnnualCostRate(document.PortfolioId);
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
-            throw new System.Exception("An error occurred while updating the document.", e);
+            throw new Exception("An error occurred while updating the document.", e);
         }
     
         return document;
     }
-
-    public async Task<Document?> Handle(UpdateEffectiveAnnualCostRateCommand command)
-    {
-        var documents = await documentRepository.FindByPortfolioIdAsync(command.PortfolioId);
-
-        var enumerable = documents.ToList();
-        
-        if (enumerable.Count == 0)
-            throw new Exception("No documents found for the portfolio.");
-
-        var effectiveAnnualCostRate =
-            await effectiveAnnualCostRateCalculationService.CalculateEffectiveAnnualCostRate(enumerable);
-
-        try
-        {
-            await unitOfWork.CompleteAsync();
-            await externalPortfolioService
-                .UpdateEffectiveAnnualCostRateAsync(command.PortfolioId, effectiveAnnualCostRate);
-
-            return enumerable.FirstOrDefault();
-        }
-        catch (Exception e)
-        {
-            throw new Exception("An error occurred while updating the effective annual cost rate.", e);
-        }
-    }
-
+    
     /// <inheritdoc/>
     public async Task<Document?> Handle(DeleteDocumentCommand command)
     {
@@ -124,6 +98,7 @@ public class DocumentCommandService(
         try
         {
             await externalPortfolioService.DecrementTotalDocumentsAsync(command.PortfolioId);
+            
             documentRepository.Remove(document);
             await unitOfWork.CompleteAsync();
             
@@ -151,8 +126,8 @@ public class DocumentCommandService(
             return;
         }
 
-        var effectiveAnnualCostRate = await effectiveAnnualCostRateCalculationService
-            .CalculateEffectiveAnnualCostRate(documentList);
+        var effectiveAnnualCostRate = 
+            await effectiveAnnualCostRateCalculationService.CalculateEffectiveAnnualCostRate(documentList);
 
         try
         {

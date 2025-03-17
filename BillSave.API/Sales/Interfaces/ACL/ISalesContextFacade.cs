@@ -10,17 +10,6 @@ namespace BillSave.API.Sales.Interfaces.ACL;
 public interface ISalesContextFacade
 {
     /// <summary>
-    /// This method is used to increment the total documents of a portfolio.
-    /// </summary>
-    /// <param name="portfolioId">
-    ///     The portfolio id.
-    /// </param>
-    /// <returns>
-    /// A task representing the asynchronous operation.
-    /// </returns>
-    Task<IEnumerable<Document>> GetDocumentsByPortfolioIdAsync(int portfolioId);
-
-    /// <summary>
     /// This method is used to delete all documents of a portfolio.
     /// </summary>
     /// <param name="portfolioId">
@@ -30,6 +19,4 @@ public interface ISalesContextFacade
     /// A task representing the asynchronous operation.
     /// </returns>
     Task DeleteDocumentsByPortfolioIdAsync(int portfolioId);
-
-    Task<decimal> GetEffectiveAnnualCostRateForPack(int portfolioId);
 }

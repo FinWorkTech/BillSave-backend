@@ -27,12 +27,6 @@ public class DocumentQueryService(IDocumentRepository documentRepository) : IDoc
     }
     
     /// <inheritdoc />
-    public async Task<IEnumerable<Document>> Handle(GetDocumentByRateTypeQuery query)
-    {
-        return await documentRepository.FinByRateTypeAsync(query.RateType);
-    }
-    
-    /// <inheritdoc />
     public async Task<Document?> Handle(GetDocumentByIdQuery query)
     {
         return await documentRepository.FindByIdAsync(query.Id);
