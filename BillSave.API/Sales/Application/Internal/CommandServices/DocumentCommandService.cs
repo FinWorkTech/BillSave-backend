@@ -2,10 +2,10 @@ using MediatR;
 using BillSave.API.Shared.Domain.Repositories;
 using BillSave.API.Sales.Domain.Model.Commands;
 using BillSave.API.Sales.Domain.Model.Aggregates;
-using BillSave.API.Sales.Domain.Contracts.Repositories;
 using BillSave.API.Sales.Application.ACL.OutboundServices;
-using BillSave.API.Sales.Application.Contracts;
-using BillSave.API.Sales.Domain.Services.Contracts;
+using BillSave.API.Sales.Application.Interfaces.CommandServices;
+using BillSave.API.Sales.Domain.Repositories;
+using BillSave.API.Sales.Domain.Services;
 
 namespace BillSave.API.Sales.Application.Internal.CommandServices;
 
@@ -19,11 +19,15 @@ namespace BillSave.API.Sales.Application.Internal.CommandServices;
 /// <param name="unitOfWork">
 /// The <see cref="IUnitOfWork"/> unit of work.
 /// </param>
-public class DocumentCommandService(
-    IUnitOfWork unitOfWork, 
-    IDocumentRepository documentRepository,
-    IEacrCalculationService effectiveAnnualCostRateCalculationService,
-    ExternalPortfolioService externalPortfolioService, IMediator mediator) : IDocumentCommandService
+public class DocumentCommandService
+    (
+        IUnitOfWork unitOfWork, 
+        IDocumentRepository documentRepository,
+        ExternalPortfolioService externalPortfolioService,
+        IDocumentEacrCalculationService documentEacrCalculationService,
+        IPortfolioEacrCalculationService portfolioEacrCalculationService
+    ) 
+    : IDocumentCommandService
 {
     /// <inheritdoc/>
     public async Task<Document?> Handle(CreateDocumentCommand command)
@@ -41,7 +45,9 @@ public class DocumentCommandService(
         }
 
         var document = new Document(command);
-
+        document.UpdateEffectiveAnnualCostRate
+            (await documentEacrCalculationService.CalculateEffectiveAnnualCostRate(document));
+        
         try
         {
             await documentRepository.AddAsync(document);
@@ -69,6 +75,8 @@ public class DocumentCommandService(
         }
         
         document.UpdateDocument(command);
+        document.UpdateEffectiveAnnualCostRate
+            (await documentEacrCalculationService.CalculateEffectiveAnnualCostRate(document));
     
         try
         {
@@ -127,7 +135,7 @@ public class DocumentCommandService(
         }
 
         var effectiveAnnualCostRate = 
-            await effectiveAnnualCostRateCalculationService.CalculateEffectiveAnnualCostRate(documentList);
+            await portfolioEacrCalculationService.CalculateEffectiveAnnualCostRate(documentList);
 
         try
         {

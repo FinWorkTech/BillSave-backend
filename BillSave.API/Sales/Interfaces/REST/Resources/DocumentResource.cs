@@ -37,5 +37,6 @@ public record DocumentResource(
     string RateType,
     decimal RateValue,
     string Currency,
-    decimal NominalAmount
+    decimal NominalAmount,
+    decimal EffectiveAnnualCostRate
     );

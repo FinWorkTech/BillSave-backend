@@ -30,7 +30,8 @@ public class DocumentResourceFromEntityAssembler
             entity.Rate.Type,
             entity.Rate.Value,
             entity.Currency.Code,
-            entity.NominalAmount
+            entity.NominalAmount,
+            entity.EffectiveAnnualCostRate
             );
     }
 }
