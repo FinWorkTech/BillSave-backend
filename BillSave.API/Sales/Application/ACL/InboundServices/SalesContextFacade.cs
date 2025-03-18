@@ -1,5 +1,5 @@
+using BillSave.API.Sales.Domain.Repositories;
 using BillSave.API.Sales.Interfaces.ACL;
-using BillSave.API.Sales.Domain.Contracts.Repositories;
 
 namespace BillSave.API.Sales.Application.ACL.InboundServices;
 

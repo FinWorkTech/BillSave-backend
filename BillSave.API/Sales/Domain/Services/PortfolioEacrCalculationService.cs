@@ -1,13 +1,12 @@
 using BillSave.API.Sales.Domain.Model.Aggregates;
-using BillSave.API.Sales.Domain.Services.Contracts;
 
 namespace BillSave.API.Sales.Domain.Services;
 
 /// Effective Annual Cost Rate Calculation Service.
 /// <summary>
-/// The <see cref="IEacrCalculationService"/> implementation.
+/// The <see cref="IPortfolioEacrCalculationService"/> implementation.
 /// </summary>
-public class EacrCalculationService : IEacrCalculationService
+public class PortfolioEacrCalculationService : IPortfolioEacrCalculationService
 {
     public async Task<decimal> CalculateEffectiveAnnualCostRate(IEnumerable<Document> documents)
     {

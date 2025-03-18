@@ -1,6 +1,6 @@
-using BillSave.API.Sales.Domain.Contracts.Repositories;
 using Microsoft.EntityFrameworkCore;
 using BillSave.API.Sales.Domain.Model.Aggregates;
+using BillSave.API.Sales.Domain.Repositories;
 using BillSave.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using BillSave.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 

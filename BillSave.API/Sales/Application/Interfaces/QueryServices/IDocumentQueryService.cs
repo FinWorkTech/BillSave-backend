@@ -1,7 +1,7 @@
 using BillSave.API.Sales.Domain.Model.Aggregates;
 using BillSave.API.Sales.Domain.Model.Queries;
 
-namespace BillSave.API.Sales.Application.Contracts;
+namespace BillSave.API.Sales.Application.Interfaces.QueryServices;
 
 /// Document Query Service Interface
 /// <summary>

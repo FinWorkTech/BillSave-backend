@@ -2,7 +2,7 @@ using BillSave.API.Portfolio.Domain.Model.Aggregates;
 using BillSave.API.Portfolio.Domain.Model.Queries;
 using BillSave.API.Portfolio.Domain.Model.ValueObjects;
 
-namespace BillSave.API.Portfolio.Application.Contracts;
+namespace BillSave.API.Portfolio.Application.Interfaces.QueryServices;
 
 /// <summary>
 /// The service to query packs.

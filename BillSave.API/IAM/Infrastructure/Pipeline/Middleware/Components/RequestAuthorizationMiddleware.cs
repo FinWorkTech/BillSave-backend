@@ -1,6 +1,6 @@
 using BillSave.API.IAM.Application.ACL.InboundServices;
+using BillSave.API.IAM.Application.Interfaces.QueryServices;
 using BillSave.API.IAM.Domain.Model.Queries;
-using BillSave.API.IAM.Domain.Services;
 using BillSave.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 
 namespace BillSave.API.IAM.Infrastructure.Pipeline.Middleware.Components;

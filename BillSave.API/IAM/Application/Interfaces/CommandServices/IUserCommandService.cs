@@ -1,7 +1,7 @@
 using BillSave.API.IAM.Domain.Model.Aggregates;
 using BillSave.API.IAM.Domain.Model.Commands;
 
-namespace BillSave.API.IAM.Domain.Services;
+namespace BillSave.API.IAM.Application.Interfaces.CommandServices;
 
 /// <summary>
 /// User command service

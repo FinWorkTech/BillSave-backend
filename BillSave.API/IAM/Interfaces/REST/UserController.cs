@@ -1,9 +1,8 @@
 using System.Net.Mime;
+using BillSave.API.IAM.Application.Interfaces.QueryServices;
 using Microsoft.AspNetCore.Mvc;
 
 using Swashbuckle.AspNetCore.Annotations;
-
-using BillSave.API.IAM.Domain.Services;
 using BillSave.API.IAM.Domain.Model.Queries;
 using BillSave.API.IAM.Interfaces.REST.Resources;
 using BillSave.API.IAM.Interfaces.REST.Transform;

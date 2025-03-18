@@ -1,5 +1,6 @@
 using System.Net.Mime;
-using BillSave.API.Sales.Application.Contracts;
+using BillSave.API.Sales.Application.Interfaces.CommandServices;
+using BillSave.API.Sales.Application.Interfaces.QueryServices;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using BillSave.API.Sales.Domain.Model.Queries;

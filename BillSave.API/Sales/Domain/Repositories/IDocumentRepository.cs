@@ -1,7 +1,7 @@
 using BillSave.API.Sales.Domain.Model.Aggregates;
 using BillSave.API.Shared.Domain.Repositories;
 
-namespace BillSave.API.Sales.Domain.Contracts.Repositories;
+namespace BillSave.API.Sales.Domain.Repositories;
 
 /// Document repository interface
 /// <summary>

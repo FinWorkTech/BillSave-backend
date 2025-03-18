@@ -1,4 +1,4 @@
-using BillSave.API.Portfolio.Application.Contracts;
+using BillSave.API.Portfolio.Application.Interfaces.QueryServices;
 using BillSave.API.Portfolio.Domain.Model.Aggregates;
 using BillSave.API.Portfolio.Domain.Model.Queries;
 using BillSave.API.Portfolio.Domain.Model.ValueObjects;
