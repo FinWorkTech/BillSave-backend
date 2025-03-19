@@ -1,18 +1,23 @@
-using BillSave.API.IAM.Infrastructure.Config;
-using BillSave.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
-using BillSave.API.IAM.Infrastructure.Tokens.JWT.Configuration;
-using BillSave.API.Portfolio.Infrastructure.Config;
-using BillSave.API.Profiles.Infrastructure.Config;
-using BillSave.API.Sales.Infrastructure.Config;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-using BillSave.API.Shared.Domain.Repositories;
+
+using BillSave.API.IAM.Infrastructure.Config;
+using BillSave.API.IAM.Infrastructure.Tokens.JWT.Configuration;
+using BillSave.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
+
+using BillSave.API.Portfolio.Application.Internal.EventHandlers;
+
+using BillSave.API.Sales.Infrastructure.Config;
+using BillSave.API.Profiles.Infrastructure.Config;
+using BillSave.API.Portfolio.Infrastructure.Config;
+
 using BillSave.API.Shared.Domain.Services;
+using BillSave.API.Shared.Domain.Repositories;
+using BillSave.API.Shared.Infrastructure.Services;
 using BillSave.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using BillSave.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using BillSave.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using BillSave.API.Shared.Infrastructure.Pipeline.Middleware.Components;
-using BillSave.API.Shared.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -128,7 +133,8 @@ builder.Services.AddHttpClient<ISunatService, SunatService>();
 
 // Registrar MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-    typeof(Program).Assembly
+    typeof(Program).Assembly,
+    typeof(DocumentChangedEventHandler).Assembly
 ));
 
 var app = builder.Build();
