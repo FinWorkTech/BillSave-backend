@@ -7,7 +7,4 @@ namespace BillSave.API.Portfolio.Domain.Model.Commands;
 /// <param name="PackId">
 /// The pack id.
 /// </param>
-/// <param name="EffectiveAnnualCostRate">
-/// The effective annual cost rate.
-/// </param>
-public record UpdateEffectiveAnnualCostRateCommand(int PackId, decimal EffectiveAnnualCostRate);
+public record UpdateEffectiveAnnualCostRateCommand(int PackId);
