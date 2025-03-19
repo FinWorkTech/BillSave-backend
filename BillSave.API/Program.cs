@@ -5,11 +5,12 @@ using BillSave.API.IAM.Infrastructure.Config;
 using BillSave.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 using BillSave.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
 
-using BillSave.API.Portfolio.Application.Internal.EventHandlers;
-
 using BillSave.API.Sales.Infrastructure.Config;
 using BillSave.API.Profiles.Infrastructure.Config;
 using BillSave.API.Portfolio.Infrastructure.Config;
+
+using BillSave.API.Portfolio.Application.ACL.EventHandlers;
+using BillSave.API.Sales.Application.Internal.EventHandlers;
 
 using BillSave.API.Shared.Domain.Services;
 using BillSave.API.Shared.Domain.Repositories;
@@ -134,7 +135,8 @@ builder.Services.AddHttpClient<ISunatService, SunatService>();
 // Registrar MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(Program).Assembly,
-    typeof(DocumentChangedEventHandler).Assembly
+    typeof(DocumentChangedIntegrationEventHandler).Assembly,
+    typeof(DocumentChangedEventToIntegrationEventHandler).Assembly
 ));
 
 var app = builder.Build();
