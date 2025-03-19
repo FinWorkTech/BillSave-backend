@@ -1,6 +1,5 @@
-using BillSave.API.Portfolio.Interfaces.ACL;
+using BillSave.API.Portfolio.Domain.Services;
 using BillSave.API.Portfolio.Domain.Repositories;
-using BillSave.API.Portfolio.Application.ACL.InboundServices;
 using BillSave.API.Portfolio.Application.ACL.OutboundServices;
 using BillSave.API.Portfolio.Application.Internal.QueryServices;
 using BillSave.API.Portfolio.Application.Interfaces.QueryServices;
@@ -21,7 +20,7 @@ public static class DependencyInjection
         services.AddScoped<IPackRepository, PackRepository>();
         services.AddScoped<IPackQueryService, PackQueryService>();
         services.AddScoped<IPackCommandService, PackCommandService>();
-        services.AddScoped<IPortfoliosContextFacade, PortfoliosContextFacade>();
+        services.AddScoped<IPortfolioEacrCalculationService, PortfolioEacrCalculationService>();
         
         return services;
     }
