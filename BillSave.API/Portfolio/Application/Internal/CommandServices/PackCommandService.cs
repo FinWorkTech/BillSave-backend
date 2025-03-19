@@ -140,5 +140,6 @@ public class PackCommandService
         pack.UpdateEffectiveAnnualCostRate(eacr);
         
         packRepository.Update(pack);
+        await unitOfWork.CompleteAsync();
     }
 }
