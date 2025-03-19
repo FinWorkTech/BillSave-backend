@@ -35,7 +35,6 @@
     <ItemGroup>
       <Folder Include="IAM\Application\ACL\" />
       <Folder Include="IAM\Application\Internal\" />
-      <Folder Include="Sales\Domain\Services\Contracts\" />
     </ItemGroup>
 
 </Project>
