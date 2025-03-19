@@ -1,5 +1,3 @@
-using System.Reflection.Metadata;
-using Document = BillSave.API.Sales.Domain.Model.Aggregates.Document;
 
 namespace BillSave.API.Sales.Interfaces.ACL;
 
@@ -19,4 +17,26 @@ public interface ISalesContextFacade
     /// A task representing the asynchronous operation.
     /// </returns>
     Task DeleteDocumentsByPortfolioIdAsync(int portfolioId);
+    
+    /// <summary>
+    /// This method is used to get the document nominal amounts by portfolio id.
+    /// </summary>
+    /// <param name="portfolioId">
+    /// The portfolio id.
+    /// </param>
+    /// <returns>
+    /// The document nominal amounts.
+    /// </returns>
+    Task<List<decimal>> GetDocumentNominalAmountsByPortfolioIdAsync(int portfolioId);
+    
+    /// <summary>
+    /// This method is used to get the document effective annual cost rates by portfolio id.
+    /// </summary>
+    /// <param name="portfolioId">
+    /// The portfolio id.
+    /// </param>
+    /// <returns>
+    /// The document effective annual cost rates.
+    /// </returns>
+    Task<List<decimal>> GetDocumentEffectiveAnnualCostRatesByPortfolioIdAsync(int portfolioId);
 }
