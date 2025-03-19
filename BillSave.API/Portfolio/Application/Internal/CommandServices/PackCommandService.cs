@@ -1,3 +1,4 @@
+using BillSave.API.Portfolio.Domain.Services;
 using BillSave.API.Shared.Domain.Repositories;
 using BillSave.API.Portfolio.Domain.Repositories;
 using BillSave.API.Portfolio.Domain.Model.Commands;
@@ -16,8 +17,14 @@ namespace BillSave.API.Portfolio.Application.Internal.CommandServices;
 /// <param name="unitOfWork">
 /// The <see cref="IUnitOfWork"/> instance.
 /// </param>
-public class PackCommandService(IPackRepository packRepository, 
-    IUnitOfWork unitOfWork, ExternalSalesService externalSalesService) : IPackCommandService
+public class PackCommandService
+    (
+        IUnitOfWork unitOfWork, 
+        IPackRepository packRepository, 
+        ExternalSalesService externalSalesService,
+        IPortfolioEacrCalculationService portfolioEacrCalculationService
+    ) 
+    : IPackCommandService
 {
     /// <inheritdoc />
     public async Task<Pack?> Handle(CreatePackCommand command)
@@ -120,7 +127,18 @@ public class PackCommandService(IPackRepository packRepository,
         if (pack == null)
             throw new KeyNotFoundException("Pack not found");
         
-        pack.UpdateEffectiveAnnualCostRate(command.EffectiveAnnualCostRate);
-        await unitOfWork.CompleteAsync();
+        var nominalAmounts = 
+            await externalSalesService.GetDocumentNominalAmountsByPortfolioIdAsync(command.PackId);
+        
+        var effectiveAnnualCostRates = 
+            await externalSalesService.GetDocumentEffectiveAnnualCostRatesByPortfolioIdAsync(command.PackId);
+        
+        var eacr = 
+            await portfolioEacrCalculationService.CalculateEffectiveAnnualCostRate
+                (nominalAmounts, effectiveAnnualCostRates);
+        
+        pack.UpdateEffectiveAnnualCostRate(eacr);
+        
+        packRepository.Update(pack);
     }
 }
